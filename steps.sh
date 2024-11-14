@@ -288,6 +288,7 @@ gxde_build_iso_develop_test () {
 
 
 	gxde_build_os_factory_overlay
+	gxde_build_os_factory_overlay_by_arch
 	#gxde_build_os_factory_locale
 
 
@@ -328,6 +329,7 @@ gxde_build_iso_steps () {
 
 
 	gxde_build_os_factory_overlay
+	gxde_build_os_factory_overlay_by_arch
 	gxde_build_os_factory_locale
 
 
@@ -428,6 +430,26 @@ gxde_build_os_factory_overlay () {
 	util_error_echo
 	util_error_echo "##"
 	util_error_echo "## ## GXDE / Build Target OS / Factory Overlay"
+	util_error_echo "##"
+	util_error_echo
+
+	util_error_echo
+	util_error_echo cp -rf "${overlay_dir_path}/." "${rootfs}"
+	cp -rf "${overlay_dir_path}/." "${rootfs}"
+
+	return 0
+}
+
+gxde_build_os_factory_overlay_by_arch () {
+
+	local build_arch="${REF_BUILD_ARCH}"
+
+	local overlay_dir_path="${REF_FACTORY_OVERLAY_DIR_PATH}-by-arch/${build_arch}"
+	local rootfs="${REF_TARGET_OS_ROOT_DIR_PATH}"
+
+	util_error_echo
+	util_error_echo "##"
+	util_error_echo "## ## GXDE / Build Target OS / Factory Overlay By Arch"
 	util_error_echo "##"
 	util_error_echo
 
