@@ -118,6 +118,18 @@ REF_ISO_TEMPLATE_TARGET_DIR_PATH="${REF_PLAN_WORK_DIR_PATH}/${REF_ISO_TEMPLATE_T
 
 
 ##
+## ## Live Deb / Path
+##
+
+REF_LIVE_DEB_MIDDLE_DIR_NAME="live-deb"
+REF_LIVE_DEB_MIDDLE_DIR_PATH="${REF_PLAN_WORK_DIR_PATH}/${REF_LIVE_DEB_MIDDLE_DIR_NAME}"
+
+
+REF_LIVE_DEB_SOURCE_DIR_NAME="archives"
+REF_LIVE_DEB_SOURCE_DIR_PATH="${REF_MASTER_OS_ROOT_DIR_PATH}/var/cache/apt/${REF_LIVE_DEB_SOURCE_DIR_NAME}"
+
+
+##
 ## ## Target OS / Util
 ##
 
@@ -258,9 +270,9 @@ gxde_build_iso_develop_test () {
 
 
 	#gxde_build_os_archive
-	#gxde_build_iso_create
+	gxde_build_iso_create
 	#gxde_build_iso_create_skel
-	gxde_build_iso_create_test
+	#gxde_build_iso_create_test
 
 
 	return 0
@@ -502,6 +514,14 @@ gxde_iso_template_prepare_copy_kernel () {
 	local build_arch_dir_path="${iso_template_target_dir_path}/${build_arch}"
 
 
+	##
+	## ## prepare dir
+	##
+	util_error_echo
+	util_error_echo mkdir -p "${build_arch_dir_path}/live"
+	mkdir -p "${build_arch_dir_path}/live"
+
+
 
 
 	local kernel_number=$(ls -1 ${rootfs}/boot/vmlinuz-* | wc -l)
@@ -547,6 +567,15 @@ gxde_iso_template_prepare_copy_os_archive () {
 
 	local os_archive_file_path="${REF_TARGET_OS_ARCHIVE_FILE_PATH}"
 
+
+	##
+	## ## prepare dir
+	##
+	util_error_echo
+	util_error_echo mkdir -p "${build_arch_dir_path}/live"
+	mkdir -p "${build_arch_dir_path}/live"
+
+
 	##
 	## ## prepare os archive
 	##
@@ -563,6 +592,59 @@ gxde_iso_template_prepare_copy_os_archive () {
 
 
 	util_error_echo
+
+	return 0
+}
+
+
+
+##
+## ## GXDE / ISO Template / Prepare / add debian package
+##
+
+gxde_iso_template_prepare_add_debian_package () {
+
+
+	local iso_template_target_dir_path="${REF_ISO_TEMPLATE_TARGET_DIR_PATH}"
+
+	local build_arch="${REF_BUILD_ARCH}"
+	local build_arch_dir_path="${iso_template_target_dir_path}/${build_arch}"
+
+	local live_deb_middle_dir_path="${REF_LIVE_DEB_MIDDLE_DIR_PATH}/${build_arch}"
+
+
+	##
+	## ## add debian package / prepare dir
+	##
+	util_error_echo
+	util_error_echo mkdir -p "${build_arch_dir_path}/deb"
+	mkdir -p "${build_arch_dir_path}/deb"
+
+
+	##
+	## ## add debian package / head
+	##
+	util_error_echo
+	util_error_echo cd "${build_arch_dir_path}/deb"
+	cd "${build_arch_dir_path}/deb"
+
+
+	##
+	## ## add debian package / start
+	##
+	util_error_echo
+	util_error_echo ./addmore.py "${live_deb_middle_dir_path}"/*.deb
+	util_error_echo
+	./addmore.py "${live_deb_middle_dir_path}"/*.deb
+
+
+	##
+	## ## add debian package / tail
+	##
+	util_error_echo
+	util_error_echo cd "${OLDPWD}"
+	cd "${OLDPWD}"
+
 
 	return 0
 }
@@ -671,77 +753,22 @@ gxde_build_iso_create () {
 	fi
 
 
-	local build_arch_dir_path="${iso_template_target_dir_path}/${build_arch}"
-
-	local os_archive_file_path="${REF_TARGET_OS_ARCHIVE_FILE_PATH}"
-
-	local rootfs="${REF_TARGET_OS_ROOT_DIR_PATH}"
-
 	##
-	## ## prepare dir
+	## ## add debian package
 	##
-	mkdir -p "${build_arch_dir_path}/live"
-	mkdir -p "${build_arch_dir_path}/deb"
-
-
-	##
-	## ## add deb package
-	##
-	util_error_echo
-	util_error_echo cd "${build_arch_dir_path}/deb"
-	cd "${build_arch_dir_path}/deb"
-
-
-	util_error_echo
-	util_error_echo mkdir -p "${REF_LIVE_DEB_MIDDLE_DIR_PATH}"
-	util_error_echo
-	./addmore.py "${REF_LIVE_DEB_MIDDLE_DIR_PATH}"/*.deb
-
-
-	util_error_echo
-	util_error_echo cd "${OLDPWD}"
-	cd "${OLDPWD}"
-
-
+	gxde_iso_template_prepare_add_debian_package
 
 
 	##
 	## ## copy kernel
 	##
-
-	local kernel_number=$(ls -1 ${rootfs}/boot/vmlinuz-* | wc -l)
-	local vmlinuz_list=($(ls -1 ${rootfs}/boot/vmlinuz-* | sort -rV))
-	local initrd_list=($(ls -1 ${rootfs}/boot/initrd.img-* | sort -rV))
-
-	#util_error_echo "kernel_number=${kernel_number}"
-	#util_error_echo "vmlinuz_list=${vmlinuz_list}"
-	#util_error_echo "initrd_list=${initrd_list}"
-
-	local i=0
-
-	for i in $( seq 0 $(expr ${kernel_number} - 1) ); do
-
-		if [[ ${i} == 0 ]]; then
-			cp "${vmlinuz_list[i]}" "${build_arch_dir_path}/live/vmlinuz" -v
-			cp "${initrd_list[i]}" "${build_arch_dir_path}/live/initrd.img" -v
-		fi
-
-		if [[ ${i} == 1 ]]; then
-			cp "${vmlinuz_list[i]}" "${build_arch_dir_path}/live/vmlinuz-oldstable" -v
-			cp "${initrd_list[i]}" "${build_arch_dir_path}/live/initrd.img-oldstable" -v
-		fi
-
-	done
+	gxde_iso_template_prepare_copy_kernel
 
 
 	##
-	## ## prepare os archive
+	## ## copy os archive
 	##
-	util_error_echo
-	mv "${os_archive_file_path}" "${build_arch_dir_path}/live/filesystem.squashfs" -v
-	util_error_echo
-	#cp "${os_archive_file_path}" "${build_arch_dir_path}/live/filesystem.squashfs" -v
-	#util_error_echo
+	gxde_iso_template_prepare_copy_os_archive
 
 
 	##
@@ -838,6 +865,12 @@ gxde_build_iso_create_test () {
 
 		exit 1
 	fi
+
+
+	##
+	## ## add debian package
+	##
+	gxde_iso_template_prepare_add_debian_package
 
 
 	##
