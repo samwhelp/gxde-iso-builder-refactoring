@@ -441,7 +441,7 @@ gxde_build_os_archive () {
 
 
 ##
-## ## GXDE / Build ISO / Archive
+## ## GXDE / ISO Template / Prepare
 ##
 
 gxde_iso_template_prepare () {
@@ -466,6 +466,11 @@ gxde_iso_template_prepare () {
 
 	return 0
 }
+
+
+##
+## ## GXDE / Build ISO / Archive
+##
 
 gxde_build_iso_archive () {
 
