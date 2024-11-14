@@ -110,11 +110,13 @@ limit_root_user_required () {
 
 		util_error_echo
 		util_error_echo "##"
-		util_error_echo "## ## Please Run As Root"
+		util_error_echo "## ## Root User Required"
 		util_error_echo "##"
 
 		util_error_echo
-		util_error_echo "> Ex: sudo ${REF_CMD_FILE_NAME} amd64"
+		util_error_echo "> Please Run As Root"
+		util_error_echo
+		util_error_echo "Example: sudo ${REF_CMD_FILE_NAME} amd64"
 		util_error_echo
 
 		#sleep 2
@@ -186,7 +188,14 @@ _main_check_args_size_ () {
 
 		util_error_echo "> Build Arch Options: i386 amd64 arm64 mips64el loong64"
 		util_error_echo
-		util_error_echo "> Ex: sudo ${REF_CMD_FILE_NAME} amd64"
+		util_error_echo "SYNOPSIS : sudo ${REF_CMD_FILE_NAME} [build_arch] [aptss]"
+		util_error_echo
+		util_error_echo "Example  : sudo ${REF_CMD_FILE_NAME} amd64"
+		util_error_echo
+		util_error_echo "Example  : sudo ${REF_CMD_FILE_NAME} amd64 aptss"
+		util_error_echo
+		util_error_echo "Example  : sudo ${REF_CMD_FILE_NAME} unstable aptss"
+
 
 		util_error_echo
 
