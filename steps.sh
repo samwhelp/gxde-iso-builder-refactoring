@@ -557,7 +557,9 @@ gxde_build_os_factory_package_management () {
 
 
 
-	gxde_build_os_package_install_keyring
+	gxde_build_os_factory_package_install_keyring
+
+	gxde_build_os_factory_package_install_aptss
 
 
 
@@ -578,6 +580,38 @@ gxde_build_os_package_management () {
 
 	gxde_build_os_package_install_keyring
 
+
+
+	return 0
+}
+
+gxde_build_os_factory_package_install_keyring () {
+
+	util_error_echo
+	util_error_echo util_chroot_run apt install debian-ports-archive-keyring debian-archive-keyring -y
+	util_error_echo
+	util_chroot_run apt install debian-ports-archive-keyring debian-archive-keyring -y
+
+	util_error_echo
+	util_error_echo util_chroot_run apt update -o Acquire::Check-Valid-Until=false
+	util_error_echo
+	util_chroot_run apt update -o Acquire::Check-Valid-Until=false
+
+
+	return 0
+}
+
+gxde_build_os_factory_package_install_aptss () {
+
+	util_error_echo
+	util_error_echo util_chroot_run apt install aptss -y
+	util_error_echo
+	util_chroot_run apt install aptss -y
+
+	util_error_echo
+	util_error_echo util_chroot_run aptss update -o Acquire::Check-Valid-Until=false
+	util_error_echo
+	util_chroot_run aptss update -o Acquire::Check-Valid-Until=false
 
 
 	return 0
