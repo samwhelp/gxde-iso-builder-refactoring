@@ -464,6 +464,17 @@ gxde_iso_template_prepare () {
 	cp -rf "${iso_template_source_dir_path}/." "${iso_template_target_dir_path}"
 
 
+
+
+	##
+	## ## prepare extra dir
+	##
+	local build_arch_dir_path="${iso_template_target_dir_path}/${build_arch}"
+
+	mkdir -p "${build_arch_dir_path}/live"
+	mkdir -p "${build_arch_dir_path}/deb"
+
+
 	return 0
 }
 
