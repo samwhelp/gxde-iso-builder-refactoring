@@ -1,12 +1,12 @@
 #!/bin/bash
 function installWithAptss() {
 	if [[ $isUnAptss == 1 ]]; then
-		chrootCommand apt "$@"
+		util_chroot_run apt "$@"
 	else
-		chrootCommand aptss "$@"
+		util_chroot_run aptss "$@"
 	fi
 }
-function chrootCommand() {
+function util_chroot_run() {
 	for i in {1..5};
 	do
 		sudo env DEBIAN_FRONTEND=noninteractive chroot $debianRootfsPath "$@"
@@ -82,15 +82,15 @@ set +e
 # 安装应用
 
 sudo $programPath/pardus-chroot $debianRootfsPath
-chrootCommand apt install debian-ports-archive-keyring -y
-chrootCommand apt install debian-archive-keyring -y
-chrootCommand apt update -o Acquire::Check-Valid-Until=false
+util_chroot_run apt install debian-ports-archive-keyring -y
+util_chroot_run apt install debian-archive-keyring -y
+util_chroot_run apt update -o Acquire::Check-Valid-Until=false
 if [[ $2 == "unstable" ]]; then
-	chrootCommand apt install gxde-testing-source -y
-	chrootCommand apt update -o Acquire::Check-Valid-Until=false
+	util_chroot_run apt install gxde-testing-source -y
+	util_chroot_run apt update -o Acquire::Check-Valid-Until=false
 fi
-chrootCommand apt install aptss -y
-chrootCommand aptss update -o Acquire::Check-Valid-Until=false
+util_chroot_run apt install aptss -y
+util_chroot_run aptss update -o Acquire::Check-Valid-Until=false
 
 # 
 installWithAptss install gxde-desktop --install-recommends -y
@@ -106,12 +106,12 @@ installWithAptss install live-task-recommended live-task-standard live-config-sy
 installWithAptss install fcitx5-pinyin libudisks2-qt5-0 fcitx5 -y
 # 
 if [[ $1 != "i386" ]]; then
-	chrootCommand apt install spark-store -y
+	util_chroot_run apt install spark-store -y
 else
 	if [[ $1 == "mips64el" ]]; then
-		chrootCommand apt install loongsonapplication -y
+		util_chroot_run apt install loongsonapplication -y
 	else
-		chrootCommand apt install aptss -y
+		util_chroot_run apt install aptss -y
 	fi
 fi
 
@@ -119,13 +119,13 @@ installWithAptss update -o Acquire::Check-Valid-Until=false
 
 installWithAptss full-upgrade -y
 if [[ $1 == loong64 ]]; then
-	chrootCommand aptss install cn.loongnix.lbrowser -y
+	util_chroot_run aptss install cn.loongnix.lbrowser -y
 elif [[ $1 == amd64 ]];then
-	chrootCommand aptss install firefox-spark -y
-	chrootCommand aptss install spark-deepin-cloud-print spark-deepin-cloud-scanner -y
+	util_chroot_run aptss install firefox-spark -y
+	util_chroot_run aptss install spark-deepin-cloud-print spark-deepin-cloud-scanner -y
 	installWithAptss install dummyapp-wps-office dummyapp-spark-deepin-wine-runner -y
 elif [[ $1 == arm64 ]];then
-	chrootCommand aptss install firefox-spark -y
+	util_chroot_run aptss install firefox-spark -y
 	installWithAptss install dummyapp-wps-office dummyapp-spark-deepin-wine-runner -y
 else 
 	#installWithAptss install chromium chromium-l10n -y
@@ -135,9 +135,9 @@ fi
 #	installWithAptss install spark-box64 -y
 #fi
 installWithAptss install network-manager-gnome -y
-#chrootCommand apt install grub-efi-$1 -y
+#util_chroot_run apt install grub-efi-$1 -y
 #if [[ $1 != amd64 ]]; then
-#	chrootCommand apt install grub-efi-$1 -y
+#	util_chroot_run apt install grub-efi-$1 -y
 #fi
 # 卸载无用应用
 installWithAptss remove  mlterm mlterm-tiny deepin-terminal-gtk deepin-terminal ibus systemsettings deepin-wine8-stable  -y
