@@ -113,6 +113,7 @@ gxde_build_iso_package_required () {
 
 gxde_build_iso_develop_test () {
 
+	util_error_echo
 	util_error_echo "##"
 	util_error_echo "## ## gxde_build_iso_develop_test"
 	util_error_echo "##"
@@ -126,6 +127,7 @@ gxde_build_iso_develop_test () {
 
 gxde_build_iso_steps () {
 
+	util_error_echo
 	util_error_echo "##"
 	util_error_echo "## ## gxde_build_iso_steps"
 	util_error_echo "##"
