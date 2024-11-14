@@ -469,9 +469,17 @@ gxde_iso_template_prepare () {
 	##
 	## ## prepare extra dir
 	##
+	local build_arch="${REF_BUILD_ARCH}"
 	local build_arch_dir_path="${iso_template_target_dir_path}/${build_arch}"
 
+
+	util_error_echo
+	util_error_echo mkdir -p "${build_arch_dir_path}/live"
 	mkdir -p "${build_arch_dir_path}/live"
+
+
+	util_error_echo
+	util_error_echo mkdir -p "${build_arch_dir_path}/deb"
 	mkdir -p "${build_arch_dir_path}/deb"
 
 
@@ -523,6 +531,42 @@ gxde_iso_template_prepare_copy_kernel () {
 
 	return 0
 }
+
+##
+## ## GXDE / ISO Template / Prepare / copy os archive
+##
+
+
+gxde_iso_template_prepare_copy_os_archive () {
+
+
+	local iso_template_target_dir_path="${REF_ISO_TEMPLATE_TARGET_DIR_PATH}"
+
+	local build_arch="${REF_BUILD_ARCH}"
+	local build_arch_dir_path="${iso_template_target_dir_path}/${build_arch}"
+
+	local os_archive_file_path="${REF_TARGET_OS_ARCHIVE_FILE_PATH}"
+
+	##
+	## ## prepare os archive
+	##
+
+	#util_error_echo
+	#util_error_echo mv "${os_archive_file_path}" "${build_arch_dir_path}/live/filesystem.squashfs" -v
+	#util_error_echo
+	#mv "${os_archive_file_path}" "${build_arch_dir_path}/live/filesystem.squashfs" -v
+
+	util_error_echo
+	util_error_echo cp "${os_archive_file_path}" "${build_arch_dir_path}/live/filesystem.squashfs" -v
+	util_error_echo
+	cp "${os_archive_file_path}" "${build_arch_dir_path}/live/filesystem.squashfs" -v
+
+
+	util_error_echo
+
+	return 0
+}
+
 
 ##
 ## ## GXDE / Build ISO / Archive
@@ -799,7 +843,13 @@ gxde_build_iso_create_test () {
 	##
 	## ## copy kernel
 	##
-	gxde_iso_template_prepare_copy_kernel
+	#gxde_iso_template_prepare_copy_kernel
+
+
+	##
+	## ## copy os archive
+	##
+	gxde_iso_template_prepare_copy_os_archive
 
 
 	##
