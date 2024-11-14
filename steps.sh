@@ -849,7 +849,7 @@ gxde_build_iso_create_test () {
 	##
 	## ## copy os archive
 	##
-	gxde_iso_template_prepare_copy_os_archive
+	#gxde_iso_template_prepare_copy_os_archive
 
 
 	##
