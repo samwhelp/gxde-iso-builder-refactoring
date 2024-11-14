@@ -106,6 +106,18 @@ REF_PACKAGE_REPO_URL_FOR_LOONG64="${REF_PACKAGE_REPO_URL_FOR_LOONG64:=$DEFAULT_P
 
 
 ##
+## ## ISO Template / Path
+##
+
+REF_ISO_TEMPLATE_SOURCE_DIR_NAME="iso-template"
+REF_ISO_TEMPLATE_SOURCE_DIR_PATH="${REF_PLAN_FACTORY_DIR_PATH}/${REF_ISO_TEMPLATE_SOURCE_DIR_NAME}"
+
+
+REF_ISO_TEMPLATE_TARGET_DIR_NAME="${REF_ISO_TEMPLATE_SOURCE_DIR_NAME}"
+REF_ISO_TEMPLATE_TARGET_DIR_PATH="${REF_PLAN_WORK_DIR_PATH}/${REF_ISO_TEMPLATE_TARGET_DIR_NAME}"
+
+
+##
 ## ## Target OS / Util
 ##
 
@@ -236,16 +248,18 @@ gxde_build_iso_develop_test () {
 
 	#gxde_build_os_dir_prepare
 	#gxde_build_os_bootstrap
-	gxde_target_os_mount_for_chroot
+	#gxde_target_os_mount_for_chroot
 
 
-	gxde_build_os_clean
-	sleep 5
-	gxde_target_os_unmount_for_chroot
-	sleep 5
+	#gxde_build_os_clean
+	#sleep 5
+	#gxde_target_os_unmount_for_chroot
+	#sleep 5
 
 
-	gxde_build_os_archive
+	#gxde_build_os_archive
+	#gxde_build_iso_create
+	gxde_build_iso_create_skel
 
 
 	return 0
@@ -275,6 +289,8 @@ gxde_build_iso_steps () {
 
 
 	gxde_build_os_archive
+	gxde_build_iso_create
+	#gxde_build_iso_create_skel
 
 
 	return 0
@@ -421,6 +437,249 @@ gxde_build_os_archive () {
 	util_error_echo cd "${OLDPWD}"
 	cd "${OLDPWD}"
 
+}
+
+
+##
+## ## GXDE / Build ISO / Archive
+##
+
+gxde_iso_template_prepare () {
+
+	local iso_template_target_dir_path="${REF_ISO_TEMPLATE_TARGET_DIR_PATH}"
+	local iso_template_source_dir_path="${REF_ISO_TEMPLATE_SOURCE_DIR_PATH}"
+
+
+	util_error_echo
+	util_error_echo rm -rf "${iso_template_target_dir_path}"
+	rm -rf "${iso_template_target_dir_path}"
+
+	util_error_echo
+	util_error_echo mkdir -p "${iso_template_target_dir_path}"
+	mkdir -p "${iso_template_target_dir_path}"
+
+
+	util_error_echo
+	util_error_echo cp -rf "${iso_template_source_dir_path}/." "${iso_template_target_dir_path}"
+	cp -rf "${iso_template_source_dir_path}/." "${iso_template_target_dir_path}"
+
+
+	return 0
+}
+
+gxde_build_iso_archive () {
+
+	util_error_echo
+	util_error_echo "##"
+	util_error_echo "## ## GXDE / Build ISO / Archive / Start"
+	util_error_echo "##"
+	util_error_echo
+
+
+	local iso_template_target_dir_path="${REF_ISO_TEMPLATE_TARGET_DIR_PATH}"
+	local iso_template_source_dir_path="${REF_ISO_TEMPLATE_SOURCE_DIR_PATH}"
+
+	local build_arch="${REF_BUILD_ARCH}"
+	local build_agent_file_name="${build_arch}-build.sh"
+	local build_agent="./${build_agent_file_name}"
+	local build_agent_path="${iso_template_target_dir_path}/${build_agent_file_name}"
+
+
+	##
+	## ## iso build head
+	##
+	util_error_echo
+	util_error_echo cd "${iso_template_target_dir_path}"
+	cd "${iso_template_target_dir_path}"
+
+
+	##
+	## ## iso build start
+	##
+	util_error_echo
+	util_error_echo bash "${build_agent}"
+	util_error_echo
+	bash "${build_agent}"
+
+
+	##
+	## ## iso build tail
+	##
+	util_error_echo
+	util_error_echo "cd ${OLDPWD}"
+	cd "${OLDPWD}"
+
+
+
+
+	util_error_echo
+	util_error_echo "##"
+	util_error_echo "## ## GXDE / Build ISO / Archive / Done"
+	util_error_echo "##"
+	util_error_echo
+
+
+	return 0
+}
+
+
+##
+## ## GXDE / Build ISO / Create
+##
+
+gxde_build_iso_create () {
+
+	util_error_echo
+	util_error_echo "##"
+	util_error_echo "## ## GXDE / Build ISO / Create"
+	util_error_echo "##"
+	util_error_echo
+
+
+	gxde_iso_template_prepare
+
+
+	local iso_template_target_dir_path="${REF_ISO_TEMPLATE_TARGET_DIR_PATH}"
+	local iso_template_source_dir_path="${REF_ISO_TEMPLATE_SOURCE_DIR_PATH}"
+
+	local build_arch="${REF_BUILD_ARCH}"
+	local build_agent_file_name="${build_arch}-build.sh"
+	local build_agent="./${build_agent_file_name}"
+	local build_agent_path="${iso_template_target_dir_path}/${build_agent_file_name}"
+
+
+	if [[ ! -f "${build_agent_path}" ]]; then
+
+		util_error_echo
+		util_error_echo "##"
+		util_error_echo "## ## Build iso script not exists: "
+		util_error_echo "##"
+
+		util_error_echo
+		util_error_echo "> ${build_agent_path}"
+		util_error_echo
+
+		exit 1
+	fi
+
+
+	local os_archive_file_path="${REF_TARGET_OS_ARCHIVE_FILE_PATH}"
+
+	local rootfs="${REF_TARGET_OS_ROOT_DIR_PATH}"
+
+	##
+	## ## prepare dir
+	##
+	mkdir -p "${build_arch_dir_path}/live"
+	mkdir -p "${build_arch_dir_path}/deb"
+
+
+	##
+	## ## add deb package
+	##
+	util_error_echo
+	util_error_echo cd "${build_arch_dir_path}/deb"
+	cd "${build_arch_dir_path}/deb"
+
+
+	util_error_echo
+	util_error_echo mkdir -p "${REF_LIVE_DEB_MIDDLE_DIR_PATH}"
+	util_error_echo
+	./addmore.py "${REF_LIVE_DEB_MIDDLE_DIR_PATH}"/*.deb
+
+
+	util_error_echo
+	util_error_echo cd "${OLDPWD}"
+	cd "${OLDPWD}"
+
+
+
+
+	##
+	## ## copy kernel
+	##
+
+	local kernel_number=$(ls -1 ${rootfs}/boot/vmlinuz-* | wc -l)
+	local vmlinuz_list=($(ls -1 ${rootfs}/boot/vmlinuz-* | sort -rV))
+	local initrd_list=($(ls -1 ${rootfs}/boot/initrd.img-* | sort -rV))
+
+	#util_error_echo "kernel_number=${kernel_number}"
+	#util_error_echo "vmlinuz_list=${vmlinuz_list}"
+	#util_error_echo "initrd_list=${initrd_list}"
+
+	local i=0
+
+	for i in $( seq 0 $(expr ${kernel_number} - 1) ); do
+
+		if [[ ${i} == 0 ]]; then
+			cp "${vmlinuz_list[i]}" "${build_arch_dir_path}/live/vmlinuz" -v
+			cp "${initrd_list[i]}" "${build_arch_dir_path}/live/initrd.img" -v
+		fi
+
+		if [[ ${i} == 1 ]]; then
+			cp "${vmlinuz_list[i]}" "${build_arch_dir_path}/live/vmlinuz-oldstable" -v
+			cp "${initrd_list[i]}" "${build_arch_dir_path}/live/initrd.img-oldstable" -v
+		fi
+
+	done
+
+
+	##
+	## ## prepare os archive
+	##
+	util_error_echo
+	mv "${os_archive_file_path}" "${build_arch_dir_path}/live/filesystem.squashfs" -v
+	util_error_echo
+	#cp "${os_archive_file_path}" "${build_arch_dir_path}/live/filesystem.squashfs" -v
+	#util_error_echo
+
+
+	gxde_build_iso_archive
+
+
+	return 0
+}
+
+
+gxde_build_iso_create_skel () {
+
+	util_error_echo
+	util_error_echo "##"
+	util_error_echo "## ## GXDE / Build ISO / Create Skel"
+	util_error_echo "##"
+	util_error_echo
+
+
+	gxde_iso_template_prepare
+
+
+	local iso_template_target_dir_path="${REF_ISO_TEMPLATE_TARGET_DIR_PATH}"
+	local iso_template_source_dir_path="${REF_ISO_TEMPLATE_SOURCE_DIR_PATH}"
+
+	local build_arch="${REF_BUILD_ARCH}"
+	local build_agent_file_name="${build_arch}-build.sh"
+	local build_agent="./${build_agent_file_name}"
+	local build_agent_path="${iso_template_target_dir_path}/${build_agent_file_name}"
+
+
+	if [[ ! -f "${build_agent_path}" ]]; then
+
+		util_error_echo
+		util_error_echo "##"
+		util_error_echo "## ## Build iso script not exists: "
+		util_error_echo "##"
+
+		util_error_echo
+		util_error_echo "> ${build_agent_path}"
+		util_error_echo
+
+		exit 1
+	fi
+
+	gxde_build_iso_archive
+
+
+	return 0
 }
 
 
