@@ -1,12 +1,12 @@
 #!/bin/bash
-function installWithAptss() {
+function util_chroot_package_control () {
 	if [[ $isUnAptss == 1 ]]; then
 		util_chroot_run apt "$@"
 	else
 		util_chroot_run aptss "$@"
 	fi
 }
-function util_chroot_run() {
+function util_chroot_run () {
 	for i in {1..5};
 	do
 		sudo env DEBIAN_FRONTEND=noninteractive chroot $debianRootfsPath "$@"
@@ -93,17 +93,17 @@ util_chroot_run apt install aptss -y
 util_chroot_run aptss update -o Acquire::Check-Valid-Until=false
 
 # 
-installWithAptss install gxde-desktop --install-recommends -y
+util_chroot_package_control install gxde-desktop --install-recommends -y
 if [[ $1 != "mips64el" ]]; then
-	installWithAptss install calamares-settings-gxde --install-recommends -y
+	util_chroot_package_control install calamares-settings-gxde --install-recommends -y
 else
-	installWithAptss install gxde-installer --install-recommends -y
+	util_chroot_package_control install gxde-installer --install-recommends -y
 fi
 
 sudo rm -rf $debianRootfsPath/var/lib/dpkg/info/plymouth-theme-gxde-logo.postinst
-installWithAptss install live-task-recommended live-task-standard live-config-systemd \
+util_chroot_package_control install live-task-recommended live-task-standard live-config-systemd \
 	live-boot -y
-installWithAptss install fcitx5-pinyin libudisks2-qt5-0 fcitx5 -y
+util_chroot_package_control install fcitx5-pinyin libudisks2-qt5-0 fcitx5 -y
 # 
 if [[ $1 != "i386" ]]; then
 	util_chroot_run apt install spark-store -y
@@ -115,59 +115,59 @@ else
 	fi
 fi
 
-installWithAptss update -o Acquire::Check-Valid-Until=false
+util_chroot_package_control update -o Acquire::Check-Valid-Until=false
 
-installWithAptss full-upgrade -y
+util_chroot_package_control full-upgrade -y
 if [[ $1 == loong64 ]]; then
 	util_chroot_run aptss install cn.loongnix.lbrowser -y
 elif [[ $1 == amd64 ]];then
 	util_chroot_run aptss install firefox-spark -y
 	util_chroot_run aptss install spark-deepin-cloud-print spark-deepin-cloud-scanner -y
-	installWithAptss install dummyapp-wps-office dummyapp-spark-deepin-wine-runner -y
+	util_chroot_package_control install dummyapp-wps-office dummyapp-spark-deepin-wine-runner -y
 elif [[ $1 == arm64 ]];then
 	util_chroot_run aptss install firefox-spark -y
-	installWithAptss install dummyapp-wps-office dummyapp-spark-deepin-wine-runner -y
+	util_chroot_package_control install dummyapp-wps-office dummyapp-spark-deepin-wine-runner -y
 else 
-	#installWithAptss install chromium chromium-l10n -y
-	installWithAptss install firefox-esr firefox-esr-l10n-zh-cn -y
+	#util_chroot_package_control install chromium chromium-l10n -y
+	util_chroot_package_control install firefox-esr firefox-esr-l10n-zh-cn -y
 fi
 #if [[ $1 == arm64 ]] || [[ $1 == loong64 ]]; then
-#	installWithAptss install spark-box64 -y
+#	util_chroot_package_control install spark-box64 -y
 #fi
-installWithAptss install network-manager-gnome -y
+util_chroot_package_control install network-manager-gnome -y
 #util_chroot_run apt install grub-efi-$1 -y
 #if [[ $1 != amd64 ]]; then
 #	util_chroot_run apt install grub-efi-$1 -y
 #fi
 # 卸载无用应用
-installWithAptss remove  mlterm mlterm-tiny deepin-terminal-gtk deepin-terminal ibus systemsettings deepin-wine8-stable  -y
+util_chroot_package_control remove  mlterm mlterm-tiny deepin-terminal-gtk deepin-terminal ibus systemsettings deepin-wine8-stable  -y
 # 安装内核
 if [[ $1 != amd64 ]]; then
-	installWithAptss autopurge "linux-image-*" "linux-headers-*" -y
+	util_chroot_package_control autopurge "linux-image-*" "linux-headers-*" -y
 fi
-installWithAptss install linux-kernel-gxde-$1 -y
+util_chroot_package_control install linux-kernel-gxde-$1 -y
 # 如果为 amd64/i386 则同时安装 oldstable 内核
 if [[ $1 == amd64 ]] || [[ $1 == i386 ]] || [[ $1 == mips64el ]]; then
-	installWithAptss install linux-kernel-oldstable-gxde-$1 -y
+	util_chroot_package_control install linux-kernel-oldstable-gxde-$1 -y
 fi
-#installWithAptss install linux-firmware -y
-installWithAptss install firmware-linux -y
-installWithAptss install firmware-iwlwifi firmware-realtek -y
-installWithAptss install grub-common -y
+#util_chroot_package_control install linux-firmware -y
+util_chroot_package_control install firmware-linux -y
+util_chroot_package_control install firmware-iwlwifi firmware-realtek -y
+util_chroot_package_control install grub-common -y
 # 清空临时文件
-installWithAptss autopurge -y
-installWithAptss clean
+util_chroot_package_control autopurge -y
+util_chroot_package_control clean
 # 下载所需的安装包
-installWithAptss install grub-pc --download-only -y
-installWithAptss install grub-efi-$1 --download-only -y
-installWithAptss install grub-efi --download-only -y
-installWithAptss install grub-common --download-only -y
-installWithAptss install cryptsetup-initramfs cryptsetup keyutils --download-only -y
+util_chroot_package_control install grub-pc --download-only -y
+util_chroot_package_control install grub-efi-$1 --download-only -y
+util_chroot_package_control install grub-efi --download-only -y
+util_chroot_package_control install grub-common --download-only -y
+util_chroot_package_control install cryptsetup-initramfs cryptsetup keyutils --download-only -y
 
 mkdir grub-deb
 sudo cp $debianRootfsPath/var/cache/apt/archives/*.deb grub-deb
 # 清空临时文件
-installWithAptss clean
+util_chroot_package_control clean
 sudo touch $debianRootfsPath/etc/deepin/calamares
 sudo rm $debianRootfsPath/etc/apt/sources.list.d/debian.list -rf
 sudo rm $debianRootfsPath/etc/apt/sources.list.d/debian-backports.list -rf
