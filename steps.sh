@@ -288,9 +288,11 @@ gxde_build_iso_develop_test () {
 
 
 	gxde_build_os_factory_overlay
+	gxde_build_os_factory_locale
 
 
 	gxde_build_os_overlay
+	gxde_build_os_locale
 
 
 	#gxde_build_os_clean
@@ -326,9 +328,11 @@ gxde_build_iso_steps () {
 
 
 	gxde_build_os_factory_overlay
+	gxde_build_os_factory_locale
 
 
 	gxde_build_os_overlay
+	gxde_build_os_locale
 
 
 	gxde_build_os_clean
