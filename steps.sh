@@ -275,16 +275,16 @@ gxde_build_os_bootstrap () {
 		build_suite="unstable"
 
 		util_error_echo
-		util_error_echo debootstrap --no-check-gpg --keyring="${build_keyring_for_loong64}" --arch="${build_arch}" --include="${build_include}" "${build_suite}" "${rootfs}" "${package_repo_url_for_loong64}"
+		util_error_echo debootstrap --no-check-gpg --keyring="${build_keyring_for_loong64}" --include="${build_include}" --arch "${build_arch}" "${build_suite}" "${rootfs}" "${package_repo_url_for_loong64}"
 		util_error_echo
-		debootstrap --no-check-gpg --keyring="${build_keyring_for_loong64}" --arch="${build_arch}" --include="${build_include}" "${build_suite}" "${rootfs}" "${package_repo_url_for_loong64}"
+		debootstrap --no-check-gpg --keyring="${build_keyring_for_loong64}" --include="${build_include}" --arch "${build_arch}" "${build_suite}" "${rootfs}" "${package_repo_url_for_loong64}"
 
 	else
 
 		util_error_echo
-		util_error_echo debootstrap --arch="${build_arch}" --include="${build_include}" "${build_suite}" "${rootfs}" "${package_repo_url}"
+		util_error_echo debootstrap --include="${build_include}" --arch "${build_arch}" "${build_suite}" "${rootfs}" "${package_repo_url}"
 		util_error_echo
-		debootstrap --arch="${build_arch}" --include="${build_include}" "${build_suite}" "${rootfs}" "${package_repo_url}"
+		debootstrap --include="${build_include}" --arch "${build_arch}" "${build_suite}" "${rootfs}" "${package_repo_url}"
 
 	fi
 
