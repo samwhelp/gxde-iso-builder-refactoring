@@ -371,7 +371,7 @@ gxde_build_os_dir_prepare () {
 
 	if [[ -d "${rootfs}" ]]; then
 
-		gxde_target_os_unmount "${rootfs}"
+		gxde_target_os_unmount_for_chroot
 
 		util_error_echo
 		util_error_echo rm -rf "${rootfs}"
