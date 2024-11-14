@@ -16,13 +16,30 @@ if [[ -z "${REF_TARGET_OS_ROOT_DIR_PATH}" ]]; then
 fi
 
 
-sudo umount "${REF_TARGET_OS_ROOT_DIR_PATH}/sys/firmware/efi/efivars"
-sudo umount "${REF_TARGET_OS_ROOT_DIR_PATH}/sys"
-sudo umount "${REF_TARGET_OS_ROOT_DIR_PATH}/dev/pts"
-sudo umount "${REF_TARGET_OS_ROOT_DIR_PATH}/dev/shm"
-sudo umount "${REF_TARGET_OS_ROOT_DIR_PATH}/dev"
+function gxde_target_os_unmount_for_chroot () {
 
-sudo umount "${REF_TARGET_OS_ROOT_DIR_PATH}/run"
-sudo umount "${REF_TARGET_OS_ROOT_DIR_PATH}/media"
-sudo umount "${REF_TARGET_OS_ROOT_DIR_PATH}/proc"
-sudo umount "${REF_TARGET_OS_ROOT_DIR_PATH}/tmp"
+	local rootfs="${REF_TARGET_OS_ROOT_DIR_PATH}"
+
+	util_target_os_unmount_for_chroot "${rootfs}"
+
+}
+
+function util_target_os_unmount_for_chroot () {
+
+	local rootfs="${1}"
+
+	sudo umount "${rootfs}/sys/firmware/efi/efivars"
+	sudo umount "${rootfs}/sys"
+	sudo umount "${rootfs}/dev/pts"
+	sudo umount "${rootfs}/dev/shm"
+	sudo umount "${rootfs}/dev"
+
+	sudo umount "${rootfs}/run"
+	sudo umount "${rootfs}/media"
+	sudo umount "${rootfs}/proc"
+	sudo umount "${rootfs}/tmp"
+
+	return 0
+}
+
+gxde_target_os_unmount_for_chroot

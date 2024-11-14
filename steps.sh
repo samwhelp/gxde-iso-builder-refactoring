@@ -124,23 +124,41 @@ function util_chroot_run () {
 	done
 }
 
-function gxde_target_os_unmount () {
+function gxde_target_os_mount_for_chroot () {
 
 	local rootfs="${REF_TARGET_OS_ROOT_DIR_PATH}"
 
-	util_target_os_unmount "${rootfs}"
+	util_target_os_mount_for_chroot "${rootfs}"
 
 }
 
-function util_target_os_unmount () {
+function util_target_os_mount_for_chroot () {
 
 	local rootfs="${1}"
 
-	umount "${rootfs}/sys/firmware/efi/efivars"
-	umount "${rootfs}/sys"
-	umount "${rootfs}/dev/pts"
-	umount "${rootfs}/dev/shm"
-	umount "${rootfs}/dev"
+	mount --bind /dev "${rootfs}/dev"
+	mount --bind /run  "${rootfs}/run"
+	#mount --bind /media  "${rootfs}/media"
+	mount -t devpts devpts "${rootfs}/dev/pts"
+	mount -t sysfs sysfs "${rootfs}/sys"
+	mount -t proc proc "${rootfs}/proc"
+	mount -t tmpfs tmpfs  "${rootfs}/dev/shm"
+	mount --bind /tmp "${rootfs}/tmp"
+
+	return 0
+}
+
+function gxde_target_os_unmount_for_chroot () {
+
+	local rootfs="${REF_TARGET_OS_ROOT_DIR_PATH}"
+
+	util_target_os_unmount_for_chroot "${rootfs}"
+
+}
+
+function util_target_os_unmount_for_chroot () {
+
+	local rootfs="${1}"
 
 	umount "${rootfs}/sys/firmware/efi/efivars"
 	umount "${rootfs}/sys"
