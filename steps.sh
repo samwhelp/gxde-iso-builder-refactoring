@@ -76,6 +76,10 @@ REF_TARGET_OS_ROOT_DIR_NAME="rootfs"
 REF_TARGET_OS_ROOT_DIR_PATH="${REF_PLAN_WORK_DIR_PATH}/${REF_TARGET_OS_ROOT_DIR_NAME}"
 
 
+REF_TARGET_OS_ARCHIVE_FILE_NAME="filesystem.squashfs"
+REF_TARGET_OS_ARCHIVE_FILE_PATH="${REF_PLAN_WORK_DIR_PATH}/${REF_TARGET_OS_ARCHIVE_FILE_NAME}"
+
+
 ##
 ## ## Target OS / debootstrap args
 ##
@@ -241,7 +245,8 @@ gxde_build_iso_develop_test () {
 	sleep 5
 
 
-	#sleep 5
+	gxde_build_os_archive
+
 
 	return 0
 }
@@ -267,6 +272,9 @@ gxde_build_iso_steps () {
 	sleep 5
 	gxde_target_os_unmount_for_chroot
 	sleep 5
+
+
+	gxde_build_os_archive
 
 
 	return 0
@@ -352,7 +360,7 @@ gxde_build_os_clean () {
 	util_error_echo "##"
 	util_error_echo
 
-	local rootfs="${THE_MASTER_OS_ROOT_DIR_PATH}"
+	local rootfs="${REF_TARGET_OS_ROOT_DIR_PATH}"
 
 	util_error_echo
 	util_error_echo rm -rf "${rootfs}/var/log"/*
@@ -378,6 +386,41 @@ gxde_build_os_clean () {
 
 
 	return 0
+}
+
+
+##
+## ## GXDE / Build Target OS / Archive
+##
+
+gxde_build_os_archive () {
+
+	util_error_echo
+	util_error_echo "##"
+	util_error_echo "## ## GXDE / Build Target OS / Archive"
+	util_error_echo "##"
+	util_error_echo
+
+	local rootfs="${REF_TARGET_OS_ROOT_DIR_PATH}"
+	local os_archive_file_path="${REF_TARGET_OS_ARCHIVE_FILE_PATH}"
+
+	util_error_echo
+	util_error_echo cd "${rootfs}"
+	cd "${rootfs}"
+
+	util_error_echo
+	util_error_echo rm -rf "${os_archive_file_path}"
+	rm -rf "${os_archive_file_path}"
+
+	util_error_echo
+	util_error_echo mksquashfs * "${os_archive_file_path}"
+	mksquashfs * "${os_archive_file_path}"
+
+
+	util_error_echo
+	util_error_echo cd "${OLDPWD}"
+	cd "${OLDPWD}"
+
 }
 
 
