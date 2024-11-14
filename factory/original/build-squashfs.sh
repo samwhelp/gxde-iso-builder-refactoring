@@ -16,7 +16,7 @@ function util_chroot_run () {
 		sleep 1
 	done
 }
-function gxos_target_os_unmount () {
+function gxde_target_os_unmount () {
 	sudo umount "$1/sys/firmware/efi/efivars"
 	sudo umount "$1/sys"
 	sudo umount "$1/dev/pts"
@@ -43,7 +43,7 @@ if [[ $1 == "" ]]; then
 	exit 1
 fi
 if [[ -d $debianRootfsPath ]]; then
-	gxos_target_os_unmount $debianRootfsPath
+	gxde_target_os_unmount $debianRootfsPath
 	sudo rm -rf $debianRootfsPath
 fi
 export isUnAptss=1
@@ -178,7 +178,7 @@ sudo rm -rf $debianRootfsPath/initrd.img.old
 sudo rm -rf $debianRootfsPath/vmlinuz.old
 # 卸载文件
 sleep 5
-gxos_target_os_unmount $debianRootfsPath
+gxde_target_os_unmount $debianRootfsPath
 # 封装
 cd $debianRootfsPath
 set -e
