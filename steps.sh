@@ -582,6 +582,10 @@ gxde_build_os_package_management () {
 
 
 
+
+	gxde_build_os_package_install_gxde_desktop
+
+
 	return 0
 }
 
@@ -629,6 +633,21 @@ gxde_build_os_package_install_keyring () {
 	util_error_echo
 	util_chroot_package_control update -o Acquire::Check-Valid-Until=false
 
+
+	return 0
+}
+
+
+##
+## ## GXDE / Build Target OS / Package Management / Install gxde_desktop
+##
+
+gxde_build_os_package_install_gxde_desktop () {
+
+	util_error_echo
+	util_error_echo util_chroot_package_control install gxde-desktop -y --install-recommends
+	util_error_echo
+	util_chroot_package_control install gxde-desktop -y --install-recommends
 
 	return 0
 }
