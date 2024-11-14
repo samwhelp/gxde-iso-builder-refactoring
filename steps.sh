@@ -642,7 +642,6 @@ gxde_build_iso_create () {
 	return 0
 }
 
-
 gxde_build_iso_create_skel () {
 
 	util_error_echo
@@ -685,6 +684,47 @@ gxde_build_iso_create_skel () {
 	return 0
 }
 
+gxde_build_iso_create_test () {
+
+	util_error_echo
+	util_error_echo "##"
+	util_error_echo "## ## GXDE / Build ISO / Create Skel"
+	util_error_echo "##"
+	util_error_echo
+
+
+	gxde_iso_template_prepare
+
+
+	local iso_template_target_dir_path="${REF_ISO_TEMPLATE_TARGET_DIR_PATH}"
+	local iso_template_source_dir_path="${REF_ISO_TEMPLATE_SOURCE_DIR_PATH}"
+
+	local build_arch="${REF_BUILD_ARCH}"
+	local build_agent_file_name="${build_arch}-build.sh"
+	local build_agent="./${build_agent_file_name}"
+	local build_agent_path="${iso_template_target_dir_path}/${build_agent_file_name}"
+
+
+	if [[ ! -f "${build_agent_path}" ]]; then
+
+		util_error_echo
+		util_error_echo "##"
+		util_error_echo "## ## Build iso script not exists: "
+		util_error_echo "##"
+
+		util_error_echo
+		util_error_echo "> ${build_agent_path}"
+		util_error_echo
+
+		exit 1
+	fi
+
+
+	gxde_build_iso_archive
+
+
+	return 0
+}
 
 ##
 ## ## GXDE / Build ISO / Start
