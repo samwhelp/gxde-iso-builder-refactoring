@@ -284,12 +284,13 @@ gxde_build_iso_develop_test () {
 
 	#gxde_build_os_dir_prepare
 	#gxde_build_os_bootstrap
-	#gxde_target_os_mount_for_chroot
+	gxde_target_os_mount_for_chroot
 
 
 	gxde_build_os_factory_overlay
 	gxde_build_os_factory_overlay_by_arch
-	#gxde_build_os_factory_locale
+	gxde_build_os_package_install_keyring
+	gxde_build_os_factory_locale
 
 
 	gxde_build_os_overlay
@@ -297,9 +298,9 @@ gxde_build_iso_develop_test () {
 
 
 	#gxde_build_os_clean
-	#sleep 5
-	#gxde_target_os_unmount_for_chroot
-	#sleep 5
+	sleep 5
+	gxde_target_os_unmount_for_chroot
+	sleep 5
 
 
 	#gxde_build_os_archive
@@ -525,6 +526,46 @@ gxde_build_os_locale () {
 
 	return 0
 
+}
+
+
+##
+## ## GXDE / Build Target OS / Package Management
+##
+
+gxde_build_os_package_management () {
+
+
+	util_error_echo
+	util_error_echo "##"
+	util_error_echo "## ## Package Management"
+	util_error_echo "##"
+	util_error_echo
+
+
+
+
+	gxde_build_os_package_install_keyring
+
+
+
+	return 0
+}
+
+gxde_build_os_package_install_keyring () {
+
+	util_error_echo
+	util_error_echo util_chroot_package_control install debian-ports-archive-keyring debian-archive-keyring -y
+	util_error_echo
+	util_chroot_package_control install debian-ports-archive-keyring debian-archive-keyring -y
+
+	util_error_echo
+	util_error_echo util_chroot_package_control update -o Acquire::Check-Valid-Until=false
+	util_error_echo
+	util_chroot_package_control update -o Acquire::Check-Valid-Until=false
+
+
+	return 0
 }
 
 
