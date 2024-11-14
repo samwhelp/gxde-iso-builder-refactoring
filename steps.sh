@@ -81,14 +81,58 @@ function gxde_target_os_unmount () {
 
 
 ##
+## ## GXDE / Build ISO / Package Required For Build
+##
+
+gxde_build_iso_package_required () {
+
+	#return 0
+
+	util_error_echo
+	util_error_echo "##"
+	util_error_echo "## ## Check Package Required"
+	util_error_echo "##"
+	util_error_echo
+
+
+	util_error_echo
+	util_error_echo "apt-get install debootstrap debian-archive-keyring debian-ports-archive-keyring qemu-user-static genisoimage squashfs-tools -y"
+	util_error_echo
+	apt-get install debootstrap debian-archive-keyring debian-ports-archive-keyring qemu-user-static genisoimage squashfs-tools -y
+
+	util_error_echo
+
+
+
+}
+
+
+##
 ## ## GXDE / Build ISO / Steps
 ##
 
-gxde_build_iso_steps () {
+gxde_build_iso_develop_test () {
 
-	echo "gxde_build_iso_steps"
+	util_error_echo "##"
+	util_error_echo "## ## gxde_build_iso_develop_test"
+	util_error_echo "##"
+
+	gxde_build_iso_package_required
 
 	sleep 5
+
+	return 0
+}
+
+gxde_build_iso_steps () {
+
+	util_error_echo "##"
+	util_error_echo "## ## gxde_build_iso_steps"
+	util_error_echo "##"
+
+	gxde_build_iso_package_required
+
+
 
 	return 0
 }
@@ -105,8 +149,9 @@ gxde_build_iso_start () {
 
 	limit_root_user_required
 
-	gxde_build_iso_steps
+	#gxde_build_iso_steps
 
+	gxde_build_iso_develop_test
 
 	return 0
 }
