@@ -76,6 +76,8 @@ gxde_build_iso_steps () {
 
 	echo "gxde_build_iso_steps"
 
+	sleep 5
+
 	return 0
 }
 
@@ -86,11 +88,13 @@ gxde_build_iso_steps () {
 
 gxde_build_iso_start () {
 
+	main_signal_bind
+
+
 	limit_root_user_required
 
 	gxde_build_iso_steps
 
-	main_signal_bind
 
 	return 0
 }
