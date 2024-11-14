@@ -291,6 +291,7 @@ gxde_build_iso_develop_test () {
 	gxde_build_os_factory_overlay_by_arch
 	gxde_build_os_factory_package_management
 	gxde_build_os_factory_locale
+	gxde_build_os_factory_package_management_for_aptss
 
 
 	gxde_build_os_package_management
@@ -336,6 +337,7 @@ gxde_build_iso_steps () {
 	gxde_build_os_factory_overlay_by_arch
 	gxde_build_os_factory_package_management
 	gxde_build_os_factory_locale
+	gxde_build_os_factory_package_management_for_aptss
 
 
 	gxde_build_os_package_management
@@ -505,9 +507,9 @@ gxde_build_os_factory_locale () {
 	util_error_echo
 
 	util_error_echo
-	util_error_echo util_chroot_package_control install locales -y
+	util_error_echo util_chroot_run apt install locales -y
 	util_error_echo
-	util_chroot_package_control install locales -y
+	util_chroot_run apt install locales -y
 
 	util_error_echo
 	util_error_echo util_chroot_run locale-gen
@@ -558,6 +560,26 @@ gxde_build_os_factory_package_management () {
 
 
 	gxde_build_os_factory_package_install_keyring
+
+	gxde_build_os_factory_package_install_aptss
+
+
+
+	return 0
+}
+
+
+gxde_build_os_factory_package_management_for_aptss () {
+
+
+	util_error_echo
+	util_error_echo "##"
+	util_error_echo "## ## GXDE / Build Target OS / Factory Package Management"
+	util_error_echo "##"
+	util_error_echo
+
+
+
 
 	gxde_build_os_factory_package_install_aptss
 
