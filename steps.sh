@@ -145,22 +145,35 @@ REF_LIVE_DEB_SOURCE_DIR_PATH="${REF_MASTER_OS_ROOT_DIR_PATH}/var/cache/apt/${REF
 ##
 
 function util_chroot_package_control () {
-	if [[ $isUnAptss == 1 ]]; then
-		util_chroot_run apt "$@"
-	else
+
+	local is_use_aptss="${REF_IS_USE_APTSS}"
+
+	if [[ "${is_use_aptss}" == "true" ]]; then
 		util_chroot_run aptss "$@"
+	else
+		util_chroot_run apt "$@"
 	fi
+
 }
 
 function util_chroot_run () {
-	for i in {1..5};
-	do
-		sudo env DEBIAN_FRONTEND=noninteractive chroot $debianRootfsPath "$@"
+
+	local rootfs="${REF_TARGET_OS_ROOT_DIR_PATH}"
+
+	local i=1
+
+	for i in {1..5}; do
+
+		sudo env DEBIAN_FRONTEND=noninteractive chroot "${rootfs}" "${@}"
+
 		if [[ $? == 0 ]]; then
 			break
 		fi
+
 		sleep 1
+
 	done
+
 }
 
 function gxde_target_os_mount_for_chroot () {
@@ -437,6 +450,55 @@ gxde_build_os_overlay () {
 	cp -rf "${overlay_dir_path}/." "${rootfs}"
 
 	return 0
+}
+
+
+##
+## ## GXDE / Build Target OS / Locale
+##
+
+gxde_build_os_factory_locale () {
+
+	util_error_echo
+	util_error_echo "##"
+	util_error_echo "## ## GXDE / Build Target OS / Factory Locale"
+	util_error_echo "##"
+	util_error_echo
+
+	util_error_echo
+	util_error_echo util_chroot_package_control install locales -y
+	util_error_echo
+	util_chroot_package_control install locales -y
+
+	util_error_echo
+	util_error_echo util_chroot_run locale-gen
+	util_error_echo
+	util_chroot_run locale-gen
+
+	return 0
+
+}
+
+gxde_build_os_locale () {
+
+	util_error_echo
+	util_error_echo "##"
+	util_error_echo "## ## GXDE / Build Target OS / Locale"
+	util_error_echo "##"
+	util_error_echo
+
+	#util_error_echo
+	#util_error_echo util_chroot_package_control install locales -y
+	#util_error_echo
+	#util_chroot_package_control install locales -y
+
+	util_error_echo
+	util_error_echo util_chroot_run locale-gen
+	util_error_echo
+	util_chroot_run locale-gen
+
+	return 0
+
 }
 
 
