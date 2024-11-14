@@ -282,9 +282,9 @@ gxde_build_os_bootstrap () {
 	else
 
 		util_error_echo
-		util_error_echo debootstrap --include="${build_include}" --arch="${build_arch}" "${build_suite}" "${rootfs}" "${package_repo_url}"
+		util_error_echo debootstrap --arch="${build_arch}" "${build_suite}" "${rootfs}" "${package_repo_url}"
 		util_error_echo
-		debootstrap --include="${build_include}" --arch="${build_arch}" "${build_suite}" "${rootfs}" "${package_repo_url}"
+		debootstrap --arch="${build_arch}" "${build_suite}" "${rootfs}" "${package_repo_url}"
 
 	fi
 
