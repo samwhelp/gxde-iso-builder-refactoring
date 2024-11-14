@@ -69,7 +69,7 @@ function gxde_target_os_unmount () {
 
 
 ##
-## ## Main / Util
+## ## GXDE / Build ISO / Steps
 ##
 
 gxde_build_iso_steps () {
@@ -77,6 +77,94 @@ gxde_build_iso_steps () {
 	echo "gxde_build_iso_steps"
 
 	return 0
+}
+
+
+##
+## ## GXDE / Build ISO / Start
+##
+
+gxde_build_iso_start () {
+
+	limit_root_user_required
+
+	gxde_build_iso_steps
+
+	main_signal_bind
+
+	return 0
+}
+
+
+##
+## ## Limit / Root User Required
+##
+
+limit_root_user_required () {
+
+	if [[ "${EUID}" == 0 ]]; then
+
+		return 0
+
+	else
+
+		util_error_echo
+		util_error_echo "##"
+		util_error_echo "## ## Please Run As Root"
+		util_error_echo "##"
+
+		util_error_echo
+		util_error_echo "> Ex: sudo ${REF_CMD_FILE_NAME} amd64"
+		util_error_echo
+
+		#sleep 2
+		exit 0
+	fi
+
+}
+
+
+##
+## ## Main / Signal
+##
+
+exit_on_signal_interrupted () {
+
+	util_error_echo
+	util_error_echo "##"
+	util_error_echo "## ## **Script Interrupted**"
+	util_error_echo "##"
+	util_error_echo
+
+	## TODO:
+
+	sleep 2
+
+	exit 0
+
+}
+
+exit_on_signal_terminated () {
+
+	util_error_echo
+	util_error_echo "##"
+	util_error_echo "## ## **Script Terminated**"
+	util_error_echo "##"
+	util_error_echo
+
+	## TODO:
+
+	sleep 2
+
+	exit 0
+
+}
+
+main_signal_bind () {
+
+	trap exit_on_signal_interrupted SIGINT
+	trap exit_on_signal_terminated SIGTERM
+
 }
 
 
@@ -122,7 +210,7 @@ _main_init_args_ () {
 
 __main__ () {
 
-	gxde_build_iso_steps "${@}"
+	gxde_build_iso_start "${@}"
 
 }
 
