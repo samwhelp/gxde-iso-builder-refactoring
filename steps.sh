@@ -289,7 +289,7 @@ gxde_build_iso_develop_test () {
 
 	gxde_build_os_factory_overlay
 	gxde_build_os_factory_overlay_by_arch
-	gxde_build_os_package_install_keyring
+	gxde_build_os_factory_package_management
 	gxde_build_os_factory_locale
 
 
