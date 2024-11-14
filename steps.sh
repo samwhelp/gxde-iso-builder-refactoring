@@ -17,6 +17,38 @@ REF_CMD_FILE_NAME="$(basename "$0")"
 
 
 ##
+## ## Plan / Path
+##
+
+REF_MAIN_SUBJECT_NAME="gxde"
+REF_PLAN_DIR_PATH="${REF_BASE_DIR_PATH}"
+
+
+
+REF_PLAN_ASSET_DIR_NAME="asset"
+REF_PLAN_ASSET_DIR_PATH="${REF_PLAN_DIR_PATH}/${REF_PLAN_ASSET_DIR_NAME}"
+
+
+REF_PLAN_FACTORY_DIR_NAME="factory"
+REF_PLAN_FACTORY_DIR_PATH="${REF_PLAN_DIR_PATH}/${REF_PLAN_FACTORY_DIR_NAME}"
+
+
+REF_PLAN_TMP_DIR_NAME="tmp"
+REF_PLAN_TMP_DIR_PATH="${REF_PLAN_DIR_PATH}/${REF_PLAN_TMP_DIR_NAME}"
+
+#REF_PLAN_TMP_DIR_PATH="${HOME}/${REF_PLAN_TMP_DIR_NAME}/${REF_MAIN_SUBJECT_NAME}"
+REF_PLAN_TMP_DIR_PATH="/opt/${REF_PLAN_TMP_DIR_NAME}/${REF_MAIN_SUBJECT_NAME}"
+
+
+REF_PLAN_WORK_DIR_NAME="work"
+REF_PLAN_WORK_DIR_PATH="${REF_PLAN_TMP_DIR_PATH}/${REF_PLAN_WORK_DIR_NAME}"
+
+REF_PLAN_OUT_DIR_NAME="out"
+REF_PLAN_OUT_DIR_PATH="${REF_PLAN_TMP_DIR_PATH}/${REF_PLAN_OUT_DIR_NAME}"
+
+echo $REF_PLAN_WORK_DIR_PATH
+
+##
 ## ## Main / Args
 ##
 
@@ -35,6 +67,12 @@ REF_BUILD_ARCH="${REF_BUILD_ARCH:=$DEFAULT_BUILD_ARCH}"
 util_error_echo () {
 	echo "$@" 1>&2
 }
+
+
+##
+## ## Target OS / Path
+##
+
 
 
 ##
@@ -118,7 +156,7 @@ gxde_build_iso_develop_test () {
 	util_error_echo "## ## gxde_build_iso_develop_test"
 	util_error_echo "##"
 
-	gxde_build_iso_package_required
+	#gxde_build_iso_package_required
 
 	sleep 5
 
