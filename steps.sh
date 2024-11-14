@@ -279,11 +279,11 @@ gxde_build_iso_develop_test () {
 	util_error_echo
 
 
-	#gxde_build_iso_package_required
+	gxde_build_iso_package_required
 
 
-	#gxde_build_os_dir_prepare
-	#gxde_build_os_bootstrap
+	gxde_build_os_dir_prepare
+	gxde_build_os_bootstrap
 	gxde_target_os_mount_for_chroot
 
 
@@ -300,7 +300,7 @@ gxde_build_iso_develop_test () {
 	gxde_build_os_locale
 
 
-	#gxde_build_os_clean
+	gxde_build_os_clean
 	sleep 5
 	gxde_target_os_unmount_for_chroot
 	sleep 5
