@@ -563,6 +563,8 @@ gxde_build_iso_create () {
 	fi
 
 
+	local build_arch_dir_path="${iso_template_target_dir_path}/${build_arch}"
+
 	local os_archive_file_path="${REF_TARGET_OS_ARCHIVE_FILE_PATH}"
 
 	local rootfs="${REF_TARGET_OS_ROOT_DIR_PATH}"
@@ -675,6 +677,7 @@ gxde_build_iso_create_skel () {
 
 		exit 1
 	fi
+
 
 	gxde_build_iso_archive
 
