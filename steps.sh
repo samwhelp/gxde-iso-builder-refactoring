@@ -17,6 +17,18 @@ REF_CMD_FILE_NAME="$(basename "$0")"
 
 
 ##
+## ## Main / Args
+##
+
+DEFAULT_IS_USE_APTSS="false"
+REF_IS_USE_APTSS="${REF_IS_USE_APTSS:=$DEFAULT_IS_USE_APTSS}"
+
+
+DEFAULT_BUILD_ARCH="amd64"
+REF_BUILD_ARCH="${REF_BUILD_ARCH:=$DEFAULT_BUILD_ARCH}"
+
+
+##
 ## ## Main / Util
 ##
 
@@ -120,7 +132,7 @@ limit_root_user_required () {
 		util_error_echo
 		util_error_echo "> Please Run As Root"
 		util_error_echo
-		util_error_echo "Example: sudo ${REF_CMD_FILE_NAME} amd64"
+		util_error_echo "Example: sudo ./${REF_CMD_FILE_NAME} amd64"
 		util_error_echo
 
 		#sleep 2
@@ -192,13 +204,13 @@ _main_check_args_size_ () {
 
 		util_error_echo "> Build Arch Options: i386 amd64 arm64 mips64el loong64"
 		util_error_echo
-		util_error_echo "SYNOPSIS : sudo ${REF_CMD_FILE_NAME} [build_arch] [aptss]"
+		util_error_echo "SYNOPSIS : sudo ./${REF_CMD_FILE_NAME} [build_arch] [aptss]"
 		util_error_echo
-		util_error_echo "Example  : sudo ${REF_CMD_FILE_NAME} amd64"
+		util_error_echo "Example  : sudo ./${REF_CMD_FILE_NAME} amd64"
 		util_error_echo
-		util_error_echo "Example  : sudo ${REF_CMD_FILE_NAME} amd64 aptss"
+		util_error_echo "Example  : sudo ./${REF_CMD_FILE_NAME} amd64 aptss"
 		util_error_echo
-		util_error_echo "Example  : sudo ${REF_CMD_FILE_NAME} unstable aptss"
+		util_error_echo "Example  : sudo ./${REF_CMD_FILE_NAME} unstable aptss"
 
 
 		util_error_echo
@@ -210,8 +222,31 @@ _main_check_args_size_ () {
 
 _main_init_args_ () {
 
+	##
+	## Example: `sudo ./steps.sh amd64 aptss`
+	##
+
 	REF_BUILD_ARCH="${1}"
 
+	if [[ -z "${REF_BUILD_ARCH}" ]]; then
+		REF_BUILD_ARCH="${DEFAULT_BUILD_ARCH}"
+	fi
+
+	#util_error_echo ${REF_BUILD_ARCH}
+
+
+	if [[ "${1}" == "aptss" ]] || [[ "${2}" == "aptss" ]]|| [[ "${3}" == "aptss" ]]; then
+		REF_IS_USE_APTSS="true"
+	fi
+
+	if [[ -z "${REF_IS_USE_APTSS}" ]]; then
+		REF_IS_USE_APTSS="${DEFAULT_IS_USE_APTSS}"
+	fi
+
+	#util_error_echo ${REF_IS_USE_APTSS}
+
+
+	return 0
 }
 
 
