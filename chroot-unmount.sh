@@ -28,14 +28,14 @@ function util_target_os_unmount_for_chroot () {
 
 	local rootfs="${1}"
 
-	sudo umount "${rootfs}/sys/firmware/efi/efivars"
+	#sudo umount "${rootfs}/sys/firmware/efi/efivars"
 	sudo umount "${rootfs}/sys"
 	sudo umount "${rootfs}/dev/pts"
 	sudo umount "${rootfs}/dev/shm"
 	sudo umount "${rootfs}/dev"
 
 	sudo umount "${rootfs}/run"
-	sudo umount "${rootfs}/media"
+	#sudo umount "${rootfs}/media"
 	sudo umount "${rootfs}/proc"
 	sudo umount "${rootfs}/tmp"
 

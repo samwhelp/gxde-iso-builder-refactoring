@@ -160,14 +160,14 @@ function util_target_os_unmount_for_chroot () {
 
 	local rootfs="${1}"
 
-	umount "${rootfs}/sys/firmware/efi/efivars"
+	#umount "${rootfs}/sys/firmware/efi/efivars"
 	umount "${rootfs}/sys"
 	umount "${rootfs}/dev/pts"
 	umount "${rootfs}/dev/shm"
 	umount "${rootfs}/dev"
 
 	umount "${rootfs}/run"
-	umount "${rootfs}/media"
+	#umount "${rootfs}/media"
 	umount "${rootfs}/proc"
 	umount "${rootfs}/tmp"
 
