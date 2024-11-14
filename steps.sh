@@ -293,8 +293,11 @@ gxde_build_iso_develop_test () {
 	gxde_build_os_factory_locale
 
 
+	gxde_build_os_package_management
+
+
 	gxde_build_os_overlay
-	#gxde_build_os_locale
+	gxde_build_os_locale
 
 
 	#gxde_build_os_clean
@@ -331,7 +334,11 @@ gxde_build_iso_steps () {
 
 	gxde_build_os_factory_overlay
 	gxde_build_os_factory_overlay_by_arch
+	gxde_build_os_factory_package_management
 	gxde_build_os_factory_locale
+
+
+	gxde_build_os_package_management
 
 
 	gxde_build_os_overlay
@@ -533,12 +540,31 @@ gxde_build_os_locale () {
 ## ## GXDE / Build Target OS / Package Management
 ##
 
+gxde_build_os_factory_package_management () {
+
+
+	util_error_echo
+	util_error_echo "##"
+	util_error_echo "## ## GXDE / Build Target OS / Factory Package Management"
+	util_error_echo "##"
+	util_error_echo
+
+
+
+
+	gxde_build_os_package_install_keyring
+
+
+
+	return 0
+}
+
 gxde_build_os_package_management () {
 
 
 	util_error_echo
 	util_error_echo "##"
-	util_error_echo "## ## Package Management"
+	util_error_echo "## ## GXDE / Build Target OS / Package Management"
 	util_error_echo "##"
 	util_error_echo
 
