@@ -46,7 +46,6 @@ REF_PLAN_WORK_DIR_PATH="${REF_PLAN_TMP_DIR_PATH}/${REF_PLAN_WORK_DIR_NAME}"
 REF_PLAN_OUT_DIR_NAME="out"
 REF_PLAN_OUT_DIR_PATH="${REF_PLAN_TMP_DIR_PATH}/${REF_PLAN_OUT_DIR_NAME}"
 
-echo $REF_PLAN_WORK_DIR_PATH
 
 ##
 ## ## Main / Args
@@ -73,7 +72,10 @@ util_error_echo () {
 ## ## Target OS / Path
 ##
 
+REF_TARGET_OS_ROOT_DIR_NAME="rootfs"
+REF_TARGET_OS_ROOT_DIR_PATH="${REF_PLAN_WORK_DIR_PATH}/${REF_TARGET_OS_ROOT_DIR_NAME}"
 
+#echo "${REF_TARGET_OS_ROOT_DIR_PATH}"
 
 ##
 ## ## Target OS / Util
@@ -177,6 +179,25 @@ gxde_build_iso_steps () {
 	return 0
 }
 
+
+##
+## ## GXDE / Build ISO / Steps
+##
+
+mod_target_os_dir_prepare () {
+
+	local rootfs="${THE_MASTER_OS_ROOT_DIR_PATH}"
+
+	if [[ -d "${rootfs}" ]]; then
+
+		sys_target_os_unmount "${rootfs}"
+		rm -rf "${rootfs}"
+
+	fi
+
+	##mkdir -p "${rootfs}"
+
+}
 
 ##
 ## ## GXDE / Build ISO / Start
