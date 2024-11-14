@@ -126,6 +126,12 @@ function util_chroot_run () {
 
 function gxde_target_os_mount_for_chroot () {
 
+	util_error_echo
+	util_error_echo "##"
+	util_error_echo "## ## Mount For Chroot"
+	util_error_echo "##"
+	util_error_echo
+
 	local rootfs="${REF_TARGET_OS_ROOT_DIR_PATH}"
 
 	util_target_os_mount_for_chroot "${rootfs}"
@@ -149,6 +155,12 @@ function util_target_os_mount_for_chroot () {
 }
 
 function gxde_target_os_unmount_for_chroot () {
+
+	util_error_echo
+	util_error_echo "##"
+	util_error_echo "## ## Unmount For Chroot"
+	util_error_echo "##"
+	util_error_echo
 
 	local rootfs="${REF_TARGET_OS_ROOT_DIR_PATH}"
 
@@ -223,7 +235,10 @@ gxde_build_iso_develop_test () {
 	gxde_target_os_mount_for_chroot
 
 
+	gxde_build_os_clean
+	sleep 5
 	gxde_target_os_unmount_for_chroot
+	sleep 5
 
 
 	#sleep 5
@@ -248,7 +263,10 @@ gxde_build_iso_steps () {
 	gxde_target_os_mount_for_chroot
 
 
+	gxde_build_os_clean
+	sleep 5
 	gxde_target_os_unmount_for_chroot
+	sleep 5
 
 
 	return 0
@@ -284,6 +302,12 @@ gxde_build_os_dir_prepare () {
 
 gxde_build_os_bootstrap () {
 
+	util_error_echo
+	util_error_echo "##"
+	util_error_echo "## ## GXDE / Build Target OS / Bootstrap"
+	util_error_echo "##"
+	util_error_echo
+
 	local build_arch="${REF_BUILD_ARCH}"
 	local build_suite="${REF_BUILD_SUITE}"
 	local build_include="${REF_BUILD_INCLUDE}"
@@ -313,6 +337,47 @@ gxde_build_os_bootstrap () {
 
 	fi
 
+}
+
+
+##
+## ## GXDE / Build Target OS / Clean
+##
+
+gxde_build_os_clean () {
+
+	util_error_echo
+	util_error_echo "##"
+	util_error_echo "## ## GXDE / Build Target OS / Clean"
+	util_error_echo "##"
+	util_error_echo
+
+	local rootfs="${THE_MASTER_OS_ROOT_DIR_PATH}"
+
+	util_error_echo
+	util_error_echo rm -rf "${rootfs}/var/log"/*
+	rm -rf "${rootfs}/var/log"/*
+
+
+	util_error_echo
+	util_error_echo rm -rf "${rootfs}/root/.bash_history"
+	util_error_echo
+	rm -rf "${rootfs}/root/.bash_history"
+
+
+	util_error_echo
+	util_error_echo rm -rf "${rootfs}/initrd.img.old"
+	util_error_echo
+	rm -rf "${rootfs}/initrd.img.old"
+
+
+	util_error_echo
+	util_error_echo rm -rf "${rootfs}/vmlinuz.old"
+	util_error_echo
+	rm -rf "${rootfs}/vmlinuz.old"
+
+
+	return 0
 }
 
 
