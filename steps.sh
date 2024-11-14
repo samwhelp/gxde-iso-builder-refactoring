@@ -270,7 +270,7 @@ gxde_build_iso_develop_test () {
 
 
 	#gxde_build_os_archive
-	gxde_build_iso_create
+	#gxde_build_iso_create
 	#gxde_build_iso_create_skel
 	#gxde_build_iso_create_test
 
