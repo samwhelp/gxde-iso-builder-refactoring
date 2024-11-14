@@ -219,8 +219,11 @@ gxde_build_iso_develop_test () {
 
 
 	#gxde_build_os_dir_prepare
-	gxde_build_os_bootstrap
+	#gxde_build_os_bootstrap
+	gxde_target_os_mount_for_chroot
 
+
+	gxde_target_os_unmount_for_chroot
 
 
 	#sleep 5
@@ -242,6 +245,10 @@ gxde_build_iso_steps () {
 
 	gxde_build_os_dir_prepare
 	gxde_build_os_bootstrap
+	gxde_target_os_mount_for_chroot
+
+
+	gxde_target_os_unmount_for_chroot
 
 
 	return 0
