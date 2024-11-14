@@ -75,7 +75,31 @@ util_error_echo () {
 REF_TARGET_OS_ROOT_DIR_NAME="rootfs"
 REF_TARGET_OS_ROOT_DIR_PATH="${REF_PLAN_WORK_DIR_PATH}/${REF_TARGET_OS_ROOT_DIR_NAME}"
 
-#echo "${REF_TARGET_OS_ROOT_DIR_PATH}"
+
+##
+## ## Target OS / debootstrap args
+##
+
+#DEFAULT_BUILD_ARCH="amd64"
+#REF_BUILD_ARCH="${REF_BUILD_ARCH:=$DEFAULT_BUILD_ARCH}"
+
+DEFAULT_BUILD_SUITE="bookworm"
+REF_BUILD_SUITE="${REF_BUILD_SUITE:=$DEFAULT_BUILD_SUITE}"
+
+DEFAULT_PACKAGE_REPO_URL="https://mirrors.tuna.tsinghua.edu.cn/debian/"
+REF_PACKAGE_REPO_URL="${REF_PACKAGE_REPO_URL:=$DEFAULT_PACKAGE_REPO_URL}"
+
+DEFAULT_BUILD_INCLUDE="debian-ports-archive-keyring,debian-archive-keyring,live-task-recommended,live-task-standard,live-config-systemd,live-boot"
+REF_BUILD_INCLUDE="${REF_BUILD_INCLUDE:=$DEFAULT_BUILD_INCLUDE}"
+
+
+## for --arch=loong64
+DEFAULT_BUILD_KEYRING_FOR_LOONG64="/usr/share/keyrings/debian-ports-archive-keyring.gpg"
+REF_BUILD_KEYRING_FOR_LOONG64="${REF_BUILD_KEYRING_FOR_LOONG64:=$DEFAULT_BUILD_KEYRING_FOR_LOONG64}"
+
+DEFAULT_PACKAGE_REPO_URL_FOR_LOONG64="https://mirror.sjtu.edu.cn/debian-ports/"
+REF_PACKAGE_REPO_URL_FOR_LOONG64="${REF_PACKAGE_REPO_URL_FOR_LOONG64:=$DEFAULT_PACKAGE_REPO_URL_FOR_LOONG64}"
+
 
 ##
 ## ## Target OS / Util
@@ -172,9 +196,14 @@ gxde_build_iso_develop_test () {
 	util_error_echo "##"
 	util_error_echo
 
+
 	#gxde_build_iso_package_required
 
-	gxde_build_os_dir_prepare
+
+	#gxde_build_os_dir_prepare
+	gxde_build_os_bootstrap
+
+
 
 	#sleep 5
 
@@ -189,9 +218,12 @@ gxde_build_iso_steps () {
 	util_error_echo "##"
 	util_error_echo
 
+
 	gxde_build_iso_package_required
 
+
 	gxde_build_os_dir_prepare
+	gxde_build_os_bootstrap
 
 
 	return 0
@@ -199,7 +231,7 @@ gxde_build_iso_steps () {
 
 
 ##
-## ## GXDE / Build Target OS / Steps
+## ## GXDE / Build Target OS / Prepare
 ##
 
 gxde_build_os_dir_prepare () {
@@ -219,6 +251,45 @@ gxde_build_os_dir_prepare () {
 	mkdir -p "${rootfs}"
 
 }
+
+
+##
+## ## GXDE / Build Target OS / Bootstrap
+##
+
+gxde_build_os_bootstrap () {
+
+	local build_arch="${REF_BUILD_ARCH}"
+	local build_suite="${REF_BUILD_SUITE}"
+	local build_include="${REF_BUILD_INCLUDE}"
+	local package_repo_url="${REF_PACKAGE_REPO_URL}"
+
+	local rootfs="${REF_TARGET_OS_ROOT_DIR_PATH}"
+
+	local build_keyring_for_loong64="${REF_BUILD_KEYRING_FOR_LOONG64}"
+	local package_repo_url_for_loong64="${REF_PACKAGE_REPO_URL_FOR_LOONG64}"
+
+
+	if [[ "${build_arch}" == "loong64" ]]; then
+
+		build_suite="unstable"
+
+		util_error_echo
+		util_error_echo debootstrap --no-check-gpg --keyring="${build_keyring_for_loong64}" --arch="${build_arch}" --include="${build_include}" "${build_suite}" "${rootfs}" "${package_repo_url_for_loong64}"
+		util_error_echo
+		debootstrap --no-check-gpg --keyring="${build_keyring_for_loong64}" --arch="${build_arch}" --include="${build_include}" "${build_suite}" "${rootfs}" "${package_repo_url_for_loong64}"
+
+	else
+
+		util_error_echo
+		util_error_echo debootstrap --arch="${build_arch}" --include="${build_include}" "${build_suite}" "${rootfs}" "${package_repo_url}"
+		util_error_echo
+		debootstrap --arch="${build_arch}" --include="${build_include}" "${build_suite}" "${rootfs}" "${package_repo_url}"
+
+	fi
+
+}
+
 
 ##
 ## ## GXDE / Build ISO / Start
