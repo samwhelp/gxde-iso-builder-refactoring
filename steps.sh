@@ -101,22 +101,35 @@ function util_chroot_run () {
 }
 
 function gxde_target_os_unmount () {
-	sudo umount "$1/sys/firmware/efi/efivars"
-	sudo umount "$1/sys"
-	sudo umount "$1/dev/pts"
-	sudo umount "$1/dev/shm"
-	sudo umount "$1/dev"
 
-	sudo umount "$1/sys/firmware/efi/efivars"
-	sudo umount "$1/sys"
-	sudo umount "$1/dev/pts"
-	sudo umount "$1/dev/shm"
-	sudo umount "$1/dev"
+	local rootfs="${REF_TARGET_OS_ROOT_DIR_PATH}"
 
-	sudo umount "$1/run"
-	sudo umount "$1/media"
-	sudo umount "$1/proc"
-	sudo umount "$1/tmp"
+	util_target_os_unmount "${rootfs}"
+
+}
+
+function util_target_os_unmount () {
+
+	local rootfs="${1}"
+
+	umount "${rootfs}/sys/firmware/efi/efivars"
+	umount "${rootfs}/sys"
+	umount "${rootfs}/dev/pts"
+	umount "${rootfs}/dev/shm"
+	umount "${rootfs}/dev"
+
+	umount "${rootfs}/sys/firmware/efi/efivars"
+	umount "${rootfs}/sys"
+	umount "${rootfs}/dev/pts"
+	umount "${rootfs}/dev/shm"
+	umount "${rootfs}/dev"
+
+	umount "${rootfs}/run"
+	umount "${rootfs}/media"
+	umount "${rootfs}/proc"
+	umount "${rootfs}/tmp"
+
+	return 0
 }
 
 
@@ -157,10 +170,13 @@ gxde_build_iso_develop_test () {
 	util_error_echo "##"
 	util_error_echo "## ## gxde_build_iso_develop_test"
 	util_error_echo "##"
+	util_error_echo
 
 	#gxde_build_iso_package_required
 
-	sleep 5
+	gxde_build_os_dir_prepare
+
+	#sleep 5
 
 	return 0
 }
@@ -171,9 +187,11 @@ gxde_build_iso_steps () {
 	util_error_echo "##"
 	util_error_echo "## ## gxde_build_iso_steps"
 	util_error_echo "##"
+	util_error_echo
 
 	gxde_build_iso_package_required
 
+	gxde_build_os_dir_prepare
 
 
 	return 0
@@ -181,21 +199,24 @@ gxde_build_iso_steps () {
 
 
 ##
-## ## GXDE / Build ISO / Steps
+## ## GXDE / Build Target OS / Steps
 ##
 
-mod_target_os_dir_prepare () {
+gxde_build_os_dir_prepare () {
 
-	local rootfs="${THE_MASTER_OS_ROOT_DIR_PATH}"
+	local rootfs="${REF_TARGET_OS_ROOT_DIR_PATH}"
 
 	if [[ -d "${rootfs}" ]]; then
 
-		sys_target_os_unmount "${rootfs}"
+		gxde_target_os_unmount "${rootfs}"
+
+		util_error_echo
+		util_error_echo rm -rf "${rootfs}"
 		rm -rf "${rootfs}"
 
 	fi
 
-	##mkdir -p "${rootfs}"
+	mkdir -p "${rootfs}"
 
 }
 
