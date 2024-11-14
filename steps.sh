@@ -106,6 +106,17 @@ REF_PACKAGE_REPO_URL_FOR_LOONG64="${REF_PACKAGE_REPO_URL_FOR_LOONG64:=$DEFAULT_P
 
 
 ##
+## ## Overlay / Path
+##
+
+REF_OVERLAY_DIR_NAME="overlay"
+REF_OVERLAY_DIR_PATH="${REF_PLAN_ASSET_DIR_PATH}/${REF_OVERLAY_DIR_NAME}"
+
+REF_FACTORY_OVERLAY_DIR_NAME="${REF_OVERLAY_DIR_NAME}"
+REF_FACTORY_OVERLAY_DIR_PATH="${REF_PLAN_FACTORY_DIR_PATH}/${REF_FACTORY_OVERLAY_DIR_NAME}"
+
+
+##
 ## ## ISO Template / Path
 ##
 
@@ -263,6 +274,12 @@ gxde_build_iso_develop_test () {
 	#gxde_target_os_mount_for_chroot
 
 
+	gxde_build_os_factory_overlay
+
+
+	gxde_build_os_overlay
+
+
 	#gxde_build_os_clean
 	#sleep 5
 	#gxde_target_os_unmount_for_chroot
@@ -293,6 +310,12 @@ gxde_build_iso_steps () {
 	gxde_build_os_dir_prepare
 	gxde_build_os_bootstrap
 	gxde_target_os_mount_for_chroot
+
+
+	gxde_build_os_factory_overlay
+
+
+	gxde_build_os_overlay
 
 
 	gxde_build_os_clean
@@ -373,6 +396,47 @@ gxde_build_os_bootstrap () {
 
 	fi
 
+}
+
+
+##
+## ## GXDE / Build Target OS / Overlay
+##
+
+gxde_build_os_factory_overlay () {
+
+	local overlay_dir_path="${REF_FACTORY_OVERLAY_DIR_PATH}"
+	local rootfs="${REF_TARGET_OS_ROOT_DIR_PATH}"
+
+	util_error_echo
+	util_error_echo "##"
+	util_error_echo "## ## GXDE / Build Target OS / Factory Overlay"
+	util_error_echo "##"
+	util_error_echo
+
+	util_error_echo
+	util_error_echo cp -rf "${overlay_dir_path}/." "${rootfs}"
+	cp -rf "${overlay_dir_path}/." "${rootfs}"
+
+	return 0
+}
+
+gxde_build_os_overlay () {
+
+	local overlay_dir_path="${REF_OVERLAY_DIR_PATH}"
+	local rootfs="${REF_TARGET_OS_ROOT_DIR_PATH}"
+
+	util_error_echo
+	util_error_echo "##"
+	util_error_echo "## ## GXDE / Build Target OS / Overlay"
+	util_error_echo "##"
+	util_error_echo
+
+	util_error_echo
+	util_error_echo cp -rf "${overlay_dir_path}/." "${rootfs}"
+	cp -rf "${overlay_dir_path}/." "${rootfs}"
+
+	return 0
 }
 
 
