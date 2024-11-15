@@ -665,6 +665,13 @@ gxde_build_os_package_management () {
 
 
 
+
+	gxde_build_os_package_install_app_store
+	gxde_build_os_package_install_web_browser
+
+
+
+
 	#gxde_build_os_package_install_each
 	#gxde_build_os_package_remove_each
 
@@ -776,6 +783,18 @@ gxde_build_os_package_install_installer () {
 	fi
 
 
+
+
+	local rootfs="${REF_TARGET_OS_ROOT_DIR_PATH}"
+
+	util_error_echo
+	util_error_echo rm -rf "${rootfs}/var/lib/dpkg/info/plymouth-theme-gxde-logo.postinst"
+	util_error_echo
+	rm -rf "${rootfs}/var/lib/dpkg/info/plymouth-theme-gxde-logo.postinst"
+
+
+
+
 	return 0
 }
 
@@ -822,6 +841,28 @@ gxde_build_os_package_install_input_method () {
 	util_error_echo util_chroot_package_control install im-config fcitx5 fcitx5-chewing fcitx5-pinyin -y
 	util_error_echo
 	util_chroot_package_control install im-config fcitx5 fcitx5-chewing fcitx5-pinyin -y
+
+
+	return 0
+}
+
+
+##
+## ## GXDE / Build Target OS / Package Management / Install App Store
+##
+
+gxde_build_os_package_install_app_store () {
+
+
+	return 0
+}
+
+
+##
+## ## GXDE / Build Target OS / Package Management / Install Web Browser
+##
+
+gxde_build_os_package_install_web_browser () {
 
 
 	return 0
