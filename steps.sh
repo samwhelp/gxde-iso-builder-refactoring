@@ -667,7 +667,7 @@ gxde_build_os_package_management () {
 	gxde_build_os_package_install_live
 	gxde_build_os_package_install_network
 	gxde_build_os_package_install_input_method
-
+	gxde_build_os_package_install_text_editor
 
 
 
@@ -846,6 +846,22 @@ gxde_build_os_package_install_input_method () {
 	util_error_echo core_chroot_package_control install im-config fcitx5 fcitx5-chewing fcitx5-pinyin -y
 	util_error_echo
 	core_chroot_package_control install im-config fcitx5 fcitx5-chewing fcitx5-pinyin -y
+
+
+	return 0
+}
+
+
+##
+## ## GXDE / Build Target OS / Package Management / Install Text Editor
+##
+
+gxde_build_os_package_install_text_editor () {
+
+	util_error_echo
+	util_error_echo core_chroot_package_control install vim micro -y
+	util_error_echo
+	core_chroot_package_control install vim micro -y
 
 
 	return 0
