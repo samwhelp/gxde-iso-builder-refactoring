@@ -658,6 +658,7 @@ gxde_build_os_package_management () {
 
 
 	#gxde_build_os_package_install_gxde_desktop
+	gxde_build_os_package_install_installer
 	gxde_build_os_package_install_live
 	gxde_build_os_package_install_network
 	gxde_build_os_package_install_input_method
@@ -745,6 +746,35 @@ gxde_build_os_package_install_gxde_desktop () {
 	util_error_echo util_chroot_package_control install gxde-desktop -y --install-recommends
 	util_error_echo
 	util_chroot_package_control install gxde-desktop -y --install-recommends
+
+	return 0
+}
+
+
+##
+## ## GXDE / Build Target OS / Package Management / Install Installer
+##
+
+gxde_build_os_package_install_installer () {
+
+	local build_arch="${REF_BUILD_ARCH}"
+
+	if [[ "${build_arch}" != "mips64el" ]]; then
+
+		util_error_echo
+		util_error_echo util_chroot_package_control install calamares-settings-gxde -y --install-recommends
+		util_error_echo
+		util_chroot_package_control install calamares-settings-gxde -y --install-recommends
+
+	else
+
+		util_error_echo
+		util_error_echo util_chroot_package_control install gxde-installer -y --install-recommends
+		util_error_echo
+		util_chroot_package_control install gxde-installer -y --install-recommends
+
+	fi
+
 
 	return 0
 }
