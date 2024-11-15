@@ -295,8 +295,6 @@ gxde_build_iso_develop_test () {
 
 
 	gxde_build_os_package_management
-
-
 	gxde_build_os_overlay
 	gxde_build_os_locale
 
@@ -341,8 +339,6 @@ gxde_build_iso_steps () {
 
 
 	gxde_build_os_package_management
-
-
 	gxde_build_os_overlay
 	gxde_build_os_locale
 
