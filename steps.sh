@@ -657,7 +657,7 @@ gxde_build_os_package_management () {
 
 
 
-	gxde_build_os_package_install_gxde_desktop
+	#gxde_build_os_package_install_gxde_desktop
 
 
 
@@ -668,9 +668,9 @@ gxde_build_os_package_management () {
 
 
 
-	gxde_build_os_package_install_kernel
-	gxde_build_os_package_install_driver
-	gxde_build_os_package_install_grub
+	#gxde_build_os_package_install_kernel
+	#gxde_build_os_package_install_driver
+	#gxde_build_os_package_install_grub
 
 
 
