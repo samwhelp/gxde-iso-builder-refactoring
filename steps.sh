@@ -853,6 +853,46 @@ gxde_build_os_package_install_input_method () {
 
 gxde_build_os_package_install_app_store () {
 
+	local build_arch="${REF_BUILD_ARCH}"
+
+
+	if [[ "${build_arch}" == "mips64el" ]]; then
+
+		util_error_echo
+		util_error_echo util_chroot_run apt install loongsonapplication -y
+		util_error_echo
+		util_chroot_run apt install loongsonapplication -y
+
+	elif [[ "${build_arch}" != "i386" ]]; then
+
+		util_error_echo
+		util_error_echo util_chroot_run apt install spark-store -y
+		util_error_echo
+		util_chroot_run apt install spark-store -y
+
+	else
+
+		util_error_echo
+		util_error_echo util_chroot_run apt install aptss -y
+		util_error_echo
+		util_chroot_run apt install aptss -y
+
+	fi
+
+
+
+
+	util_error_echo
+	util_error_echo util_chroot_package_control update -o Acquire::Check-Valid-Until=false
+	util_error_echo
+	util_chroot_package_control update -o Acquire::Check-Valid-Until=false
+
+
+	util_error_echo
+	util_error_echo util_chroot_package_control full-upgrade -y
+	util_error_echo
+	util_chroot_package_control full-upgrade -y
+
 
 	return 0
 }
@@ -863,6 +903,61 @@ gxde_build_os_package_install_app_store () {
 ##
 
 gxde_build_os_package_install_web_browser () {
+
+	local build_arch="${REF_BUILD_ARCH}"
+
+
+	if [[ "${build_arch}" == "loong64" ]]; then
+
+		util_error_echo
+		util_error_echo util_chroot_run aptss install cn.loongnix.lbrowser -y
+		util_error_echo
+		util_chroot_run aptss install cn.loongnix.lbrowser -y
+
+	elif [[ "${build_arch}" == "amd64" ]]; then
+
+		util_error_echo
+		util_error_echo util_chroot_run aptss install firefox-spark -y
+		util_error_echo
+		util_chroot_run aptss install firefox-spark -y
+
+		util_error_echo
+		util_error_echo util_chroot_run aptss install spark-deepin-cloud-print spark-deepin-cloud-scanner -y
+		util_error_echo
+		util_chroot_run aptss install spark-deepin-cloud-print spark-deepin-cloud-scanner -y
+
+
+		util_error_echo
+		util_error_echo util_chroot_package_control install dummyapp-wps-office dummyapp-spark-deepin-wine-runner -y
+		util_error_echo
+		util_chroot_package_control install dummyapp-wps-office dummyapp-spark-deepin-wine-runner -y
+
+	elif [[ "${build_arch}" == "arm64" ]]; then
+
+		util_error_echo
+		util_error_echo util_chroot_run aptss install firefox-spark -y
+		util_error_echo
+		util_chroot_run aptss install firefox-spark -y
+
+		util_error_echo
+		util_error_echo util_chroot_package_control install dummyapp-wps-office dummyapp-spark-deepin-wine-runner -y
+		util_error_echo
+		util_chroot_package_control install dummyapp-wps-office dummyapp-spark-deepin-wine-runner -y
+
+	else
+
+		#util_error_echo
+		#util_error_echo util_chroot_package_control install chromium chromium-l10n -y
+		#util_error_echo
+		#util_chroot_package_control install chromium chromium-l10n -y
+
+
+		util_error_echo
+		util_error_echo util_chroot_package_control install firefox-esr firefox-esr-l10n-zh-tw firefox-esr-l10n-zh-cn -y
+		util_error_echo
+		util_chroot_package_control install firefox-esr firefox-esr-l10n-zh-tw firefox-esr-l10n-zh-cn -y
+
+	fi
 
 
 	return 0
