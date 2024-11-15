@@ -17,6 +17,15 @@ REF_CMD_FILE_NAME="$(basename "$0")"
 
 
 ##
+## ## Main / Util
+##
+
+util_error_echo () {
+	echo "$@" 1>&2
+}
+
+
+##
 ## ## Plan / Path
 ##
 
@@ -57,15 +66,6 @@ REF_IS_USE_APTSS="${REF_IS_USE_APTSS:=$DEFAULT_IS_USE_APTSS}"
 
 DEFAULT_BUILD_ARCH="amd64"
 REF_BUILD_ARCH="${REF_BUILD_ARCH:=$DEFAULT_BUILD_ARCH}"
-
-
-##
-## ## Main / Util
-##
-
-util_error_echo () {
-	echo "$@" 1>&2
-}
 
 
 ##
@@ -162,6 +162,31 @@ REF_LIVE_DEB_MIDDLE_DIR_PATH="${REF_PLAN_WORK_DIR_PATH}/${REF_LIVE_DEB_MIDDLE_DI
 
 REF_LIVE_DEB_SOURCE_DIR_NAME="archives"
 REF_LIVE_DEB_SOURCE_DIR_PATH="${REF_MASTER_OS_ROOT_DIR_PATH}/var/cache/apt/${REF_LIVE_DEB_SOURCE_DIR_NAME}"
+
+
+##
+## ## Package Management / Util
+##
+
+util_package_find_list () {
+	local file_path="$1"
+	cat $file_path  | while IFS='' read -r line; do
+		trim_line=$(echo $line) # trim
+
+		## https://www.gnu.org/software/bash/manual/html_node/Shell-Parameter-Expansion.html
+		## ignore leading #
+		if [ "${trim_line:0:1}" == '#' ]; then
+			continue;
+		fi
+
+		## ignore empty line
+		if [[ -z "$trim_line" ]]; then
+			continue;
+		fi
+
+		echo "$line"
+	done
+}
 
 
 ##
