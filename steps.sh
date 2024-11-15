@@ -662,8 +662,16 @@ gxde_build_os_package_management () {
 
 
 
-	gxde_build_os_package_install_each
-	gxde_build_os_package_remove_each
+	#gxde_build_os_package_install_each
+	#gxde_build_os_package_remove_each
+
+
+
+
+	gxde_build_os_package_install_kernel
+	gxde_build_os_package_install_driver
+	gxde_build_os_package_install_grub
+
 
 
 
@@ -785,6 +793,95 @@ gxde_build_os_package_remove_each () {
 
 	return 0
 
+}
+
+
+##
+## ## GXDE / Build Target OS / Package Management / Install Kernel
+##
+
+gxde_build_os_package_install_kernel () {
+
+	local build_arch="${REF_BUILD_ARCH}"
+
+	local kernel_package="linux-kernel-gxde-${build_arch}"
+
+	local oldstable_kernel_package="linux-kernel-oldstable-gxde-${build_arch}"
+
+
+	if [[ "${build_arch}" != "amd64" ]]; then
+
+		util_error_echo
+		util_error_echo util_chroot_package_control autopurge "linux-image-*" "linux-headers-*" -y
+		util_error_echo
+		util_chroot_package_control autopurge "linux-image-*" "linux-headers-*" -y
+
+	fi
+
+
+	##
+	## ## install main kernel
+	##
+	#util_chroot_package_control install linux-headers-generic linux-image-generic -y
+
+	util_error_echo
+	util_error_echo util_chroot_package_control install ${kernel_package} -y
+	util_error_echo
+	util_chroot_package_control install ${kernel_package} -y
+
+
+	##
+	## ## install oldstable kernel
+	##
+	if [[ "${build_arch}" == "amd64" ]] || [[ "${build_arch}" == "i386" ]] || [[ "${build_arch}" == "mips64el" ]]; then
+
+		util_error_echo
+		util_error_echo util_chroot_package_control install ${oldstable_kernel_package} -y
+		util_error_echo
+		util_chroot_package_control install ${oldstable_kernel_package} -y
+
+	fi
+
+
+	return 0
+}
+
+
+##
+## ## GXDE / Build Target OS / Package Management / Install Driver
+##
+
+gxde_build_os_package_install_driver () {
+
+	util_error_echo
+	util_error_echo util_chroot_package_control install firmware-linux firmware-linux-free firmware-linux-nonfree -y
+	util_error_echo
+	util_chroot_package_control install firmware-linux firmware-linux-free firmware-linux-nonfree -y
+
+
+	util_error_echo
+	util_error_echo util_chroot_package_control install firmware-iwlwifi firmware-realtek -y
+	util_error_echo
+	util_chroot_package_control install firmware-iwlwifi firmware-realtek -y
+
+
+	return 0
+}
+
+
+##
+## ## GXDE / Build Target OS / Package Management / Install GRUB
+##
+
+gxde_build_os_package_install_grub () {
+
+	util_error_echo
+	util_error_echo util_chroot_package_control install grub-common -y
+	util_error_echo
+	util_chroot_package_control install grub-common -y
+
+
+	return 0
 }
 
 
