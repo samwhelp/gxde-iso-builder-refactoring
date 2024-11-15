@@ -921,6 +921,9 @@ gxde_build_os_package_downlod () {
 	local build_arch="${REF_BUILD_ARCH}"
 
 
+	##
+	## ## download debian package
+	##
 	util_error_echo
 	util_error_echo util_chroot_package_control install grub-pc -y --download-only
 	util_error_echo
@@ -949,6 +952,18 @@ gxde_build_os_package_downlod () {
 
 
 
+	##
+	## ## prepare middle dir
+	##
+	util_error_echo
+	util_error_echo mkdir -p "${REF_LIVE_DEB_MIDDLE_DIR_PATH}"
+	util_error_echo
+	mkdir -p "${REF_LIVE_DEB_MIDDLE_DIR_PATH}"
+
+	util_error_echo
+	util_error_echo rm -rf "${REF_LIVE_DEB_MIDDLE_DIR_PATH}"
+	util_error_echo
+	rm -rf "${REF_LIVE_DEB_MIDDLE_DIR_PATH}"
 
 	util_error_echo
 	util_error_echo mkdir -p "${REF_LIVE_DEB_MIDDLE_DIR_PATH}"
@@ -956,6 +971,9 @@ gxde_build_os_package_downlod () {
 	mkdir -p "${REF_LIVE_DEB_MIDDLE_DIR_PATH}"
 
 
+	##
+	## ## cp download debian package to middle dir
+	##
 	util_error_echo
 	util_error_echo cp -v "${REF_LIVE_DEB_SOURCE_DIR_PATH}"/*.deb "${REF_LIVE_DEB_MIDDLE_DIR_PATH}"
 	util_error_echo
