@@ -658,7 +658,9 @@ gxde_build_os_package_management () {
 
 
 	#gxde_build_os_package_install_gxde_desktop
+	gxde_build_os_package_install_live
 	gxde_build_os_package_install_network
+	gxde_build_os_package_install_input_method
 
 
 
@@ -749,7 +751,23 @@ gxde_build_os_package_install_gxde_desktop () {
 
 
 ##
-## ## GXDE / Build Target OS / Package Management / Network
+## ## GXDE / Build Target OS / Package Management / Install Live System Control
+##
+
+gxde_build_os_package_install_live () {
+
+	util_error_echo
+	util_error_echo util_chroot_package_control install live-task-recommended live-task-standard live-config-systemd live-boot -y
+	util_error_echo
+	util_chroot_package_control install live-task-recommended live-task-standard live-config-systemd live-boot -y
+
+
+	return 0
+}
+
+
+##
+## ## GXDE / Build Target OS / Package Management / Install Network
 ##
 
 gxde_build_os_package_install_network () {
@@ -762,6 +780,23 @@ gxde_build_os_package_install_network () {
 
 	return 0
 }
+
+
+##
+## ## GXDE / Build Target OS / Package Management / Install Input Method
+##
+
+gxde_build_os_package_install_input_method () {
+
+	util_error_echo
+	util_error_echo util_chroot_package_control install im-config fcitx5 fcitx-chewing fcitx5-pinyin -y
+	util_error_echo
+	util_chroot_package_control install im-config fcitx5 fcitx-chewing fcitx5-pinyin -y
+
+
+	return 0
+}
+
 
 
 ##
