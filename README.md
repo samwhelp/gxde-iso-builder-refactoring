@@ -1,8 +1,5 @@
 
 
-> Still in development
-
-
 # gxde-iso-builder-refactoring
 
 | Link | GitHub |
