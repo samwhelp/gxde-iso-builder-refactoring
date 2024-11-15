@@ -25,8 +25,7 @@ build:
 
 
 clean:
-	sudo rm -rf ./debian-rootfs
-	sudo rm -rf ./gxde.iso
+	sudo rm -rf /opt/tmp/gxde
 .PHONY: clean
 
 
