@@ -1490,18 +1490,19 @@ gxde_iso_template_prepare_copy_os_archive () {
 	## ## prepare os archive
 	##
 
+	util_error_echo
+	util_error_echo mv "${os_archive_file_path}" "${build_arch_dir_path}/live/filesystem.squashfs" -v
+	util_error_echo
+	mv "${os_archive_file_path}" "${build_arch_dir_path}/live/filesystem.squashfs" -v
+
 	#util_error_echo
-	#util_error_echo mv "${os_archive_file_path}" "${build_arch_dir_path}/live/filesystem.squashfs" -v
+	#util_error_echo cp "${os_archive_file_path}" "${build_arch_dir_path}/live/filesystem.squashfs" -v
 	#util_error_echo
-	#mv "${os_archive_file_path}" "${build_arch_dir_path}/live/filesystem.squashfs" -v
-
-	util_error_echo
-	util_error_echo cp "${os_archive_file_path}" "${build_arch_dir_path}/live/filesystem.squashfs" -v
-	util_error_echo
-	cp "${os_archive_file_path}" "${build_arch_dir_path}/live/filesystem.squashfs" -v
+	#cp "${os_archive_file_path}" "${build_arch_dir_path}/live/filesystem.squashfs" -v
 
 
 	util_error_echo
+
 
 	return 0
 }
