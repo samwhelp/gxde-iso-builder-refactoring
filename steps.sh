@@ -117,6 +117,14 @@ REF_FACTORY_OVERLAY_DIR_PATH="${REF_PLAN_FACTORY_DIR_PATH}/${REF_FACTORY_OVERLAY
 
 
 ##
+## ## Hook / Path
+##
+
+REF_HOOK_DIR_NAME="hook"
+REF_HOOK_DIR_PATH="${REF_PLAN_FACTORY_DIR_PATH}/${REF_HOOK_DIR_NAME}"
+
+
+##
 ## ## ISO Template / Path
 ##
 
@@ -279,27 +287,28 @@ gxde_build_iso_develop_test () {
 	util_error_echo
 
 
-	gxde_build_iso_package_required
+	#gxde_build_iso_package_required
 
 
-	gxde_build_os_dir_prepare
-	gxde_build_os_bootstrap
+	#gxde_build_os_dir_prepare
+	#gxde_build_os_bootstrap
 	gxde_target_os_mount_for_chroot
 
 
-	gxde_build_os_factory_overlay
-	gxde_build_os_factory_overlay_by_arch
-	gxde_build_os_factory_package_management
-	gxde_build_os_factory_locale
-	gxde_build_os_factory_package_management_for_aptss
+	#gxde_build_os_factory_overlay
+	#gxde_build_os_factory_overlay_by_arch
+	#gxde_build_os_factory_package_management
+	#gxde_build_os_factory_locale
+	#gxde_build_os_factory_package_management_for_aptss
 
 
-	gxde_build_os_package_management
-	gxde_build_os_overlay
-	gxde_build_os_locale
+	#gxde_build_os_package_management
+	#gxde_build_os_overlay
+	#gxde_build_os_locale
+	gxde_build_os_hook
 
 
-	gxde_build_os_clean
+	#gxde_build_os_clean
 	sleep 5
 	gxde_target_os_unmount_for_chroot
 	sleep 5
@@ -341,6 +350,7 @@ gxde_build_iso_steps () {
 	gxde_build_os_package_management
 	gxde_build_os_overlay
 	gxde_build_os_locale
+	gxde_build_os_hook
 
 
 	gxde_build_os_clean
@@ -667,6 +677,75 @@ gxde_build_os_package_install_gxde_desktop () {
 	util_chroot_package_control install gxde-desktop -y --install-recommends
 
 	return 0
+}
+
+
+##
+## ## GXDE / Build Target OS / Hook
+##
+
+gxde_build_os_hook () {
+
+	util_error_echo
+	util_error_echo "##"
+	util_error_echo "## ## GXDE / Build Target OS / Hook"
+	util_error_echo "##"
+	util_error_echo
+
+	local hook_source_dir_path="${REF_HOOK_DIR_PATH}"
+	local rootfs="${REF_TARGET_OS_ROOT_DIR_PATH}"
+	local chroot_hook_dir_path="/opt/tmp/work/hook"
+	local hook_middle_dir_path="${rootfs}${chroot_hook_dir_path}"
+
+
+	util_error_echo
+	util_error_echo rm -rf "${hook_middle_dir_path}"
+	rm -rf "${hook_middle_dir_path}"
+
+
+	util_error_echo
+	util_error_echo mkdir -p "${hook_middle_dir_path}"
+	mkdir -p "${hook_middle_dir_path}"
+
+
+	util_error_echo
+	util_error_echo cp -rf "${hook_source_dir_path}/." "${hook_middle_dir_path}"
+	cp -rf "${hook_source_dir_path}/." "${hook_middle_dir_path}"
+
+
+	local hook_file_path=""
+	local hook_file_name=""
+	local chroot_hook_file_path=""
+
+	for hook_file_path in "${hook_middle_dir_path}"/*.hook.chroot; do
+
+		hook_file_name="$(basename ${hook_file_path})"
+		chroot_hook_file_path="${chroot_hook_dir_path}/${hook_file_name}"
+
+		#util_error_echo "${hook_file_path}"
+		#util_error_echo "${hook_file_name}"
+		#util_error_echo "${chroot_hook_file_path}"
+
+		if [[ ! -x "${hook_file_path}" ]]; then
+			continue;
+		fi
+
+
+		util_error_echo
+		util_error_echo
+		util_error_echo "## > Hook:"
+
+
+		util_error_echo
+		util_error_echo util_chroot_run "${chroot_hook_file_path}"
+		util_error_echo
+		util_chroot_run "${chroot_hook_file_path}"
+
+	done
+
+
+	return 0
+
 }
 
 
