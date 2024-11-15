@@ -161,7 +161,7 @@ REF_LIVE_DEB_MIDDLE_DIR_PATH="${REF_PLAN_WORK_DIR_PATH}/${REF_LIVE_DEB_MIDDLE_DI
 
 
 REF_LIVE_DEB_SOURCE_DIR_NAME="archives"
-REF_LIVE_DEB_SOURCE_DIR_PATH="${REF_MASTER_OS_ROOT_DIR_PATH}/var/cache/apt/${REF_LIVE_DEB_SOURCE_DIR_NAME}"
+REF_LIVE_DEB_SOURCE_DIR_PATH="${REF_TARGET_OS_ROOT_DIR_PATH}/var/cache/apt/${REF_LIVE_DEB_SOURCE_DIR_NAME}"
 
 
 ##
@@ -676,7 +676,7 @@ gxde_build_os_package_management () {
 
 
 	gxde_build_os_package_clean
-
+	gxde_build_os_package_downlod
 
 
 
@@ -911,6 +911,67 @@ gxde_build_os_package_clean () {
 	return 0
 }
 
+
+##
+## ## GXDE / Build Target OS / Package Management / Downlod Debian Package
+##
+
+gxde_build_os_package_downlod () {
+
+	local build_arch="${REF_BUILD_ARCH}"
+
+
+	util_error_echo
+	util_error_echo util_chroot_package_control install grub-pc -y --download-only
+	util_error_echo
+	util_chroot_package_control install grub-pc -y --download-only
+
+
+	util_error_echo
+	util_error_echo util_chroot_package_control install "grub-efi-${build_arch}" -y --download-only
+	util_error_echo
+	util_chroot_package_control install "grub-efi-${build_arch}" -y --download-only
+
+	util_error_echo
+	util_error_echo util_chroot_package_control install grub-efi -y --download-only
+	util_error_echo
+	util_chroot_package_control install grub-efi -y --download-only
+
+	util_error_echo
+	util_error_echo util_chroot_package_control install grub-common -y --download-only
+	util_error_echo
+	util_chroot_package_control install grub-common -y --download-only
+
+	util_error_echo
+	util_error_echo util_chroot_package_control install cryptsetup-initramfs cryptsetup keyutils -y --download-only
+	util_error_echo
+	util_chroot_package_control install cryptsetup-initramfs cryptsetup keyutils -y --download-only
+
+
+
+
+	util_error_echo
+	util_error_echo mkdir -p "${REF_LIVE_DEB_MIDDLE_DIR_PATH}"
+	util_error_echo
+	mkdir -p "${REF_LIVE_DEB_MIDDLE_DIR_PATH}"
+
+
+	util_error_echo
+	util_error_echo cp -v "${REF_LIVE_DEB_SOURCE_DIR_PATH}"/*.deb "${REF_LIVE_DEB_MIDDLE_DIR_PATH}"
+	util_error_echo
+	cp -v "${REF_LIVE_DEB_SOURCE_DIR_PATH}"/*.deb "${REF_LIVE_DEB_MIDDLE_DIR_PATH}"
+
+
+	util_error_echo
+	util_error_echo util_chroot_package_control clean -y
+	util_error_echo
+	util_chroot_package_control clean -y
+
+
+	return 0
+}
+
+
 ##
 ## ## GXDE / Build Target OS / Hook
 ##
@@ -991,6 +1052,10 @@ gxde_build_os_clean () {
 	util_error_echo "## ## GXDE / Build Target OS / Clean"
 	util_error_echo "##"
 	util_error_echo
+
+
+	gxde_build_os_package_clean
+
 
 	local rootfs="${REF_TARGET_OS_ROOT_DIR_PATH}"
 
