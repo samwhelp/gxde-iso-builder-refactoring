@@ -652,7 +652,7 @@ gxde_build_os_package_management () {
 
 
 
-	gxde_build_os_package_install_keyring
+	#gxde_build_os_package_install_keyring
 
 
 
