@@ -198,19 +198,19 @@ util_package_find_list () {
 ## ## Target OS / Util
 ##
 
-util_chroot_package_control () {
+core_chroot_package_control () {
 
 	local is_use_aptss="${REF_IS_USE_APTSS}"
 
 	if [[ "${is_use_aptss}" == "true" ]]; then
-		util_chroot_run aptss "$@"
+		core_chroot_run aptss "$@"
 	else
-		util_chroot_run apt "$@"
+		core_chroot_run apt "$@"
 	fi
 
 }
 
-util_chroot_run () {
+core_chroot_run () {
 
 	local rootfs="${REF_TARGET_OS_ROOT_DIR_PATH}"
 
@@ -565,14 +565,14 @@ gxde_build_os_factory_locale () {
 	util_error_echo
 
 	util_error_echo
-	util_error_echo util_chroot_run apt install locales -y
+	util_error_echo core_chroot_run apt install locales -y
 	util_error_echo
-	util_chroot_run apt install locales -y
+	core_chroot_run apt install locales -y
 
 	util_error_echo
-	util_error_echo util_chroot_run locale-gen
+	util_error_echo core_chroot_run locale-gen
 	util_error_echo
-	util_chroot_run locale-gen
+	core_chroot_run locale-gen
 
 	return 0
 
@@ -587,14 +587,14 @@ gxde_build_os_locale () {
 	util_error_echo
 
 	#util_error_echo
-	#util_error_echo util_chroot_package_control install locales -y
+	#util_error_echo core_chroot_package_control install locales -y
 	#util_error_echo
-	#util_chroot_package_control install locales -y
+	#core_chroot_package_control install locales -y
 
 	util_error_echo
-	util_error_echo util_chroot_run locale-gen
+	util_error_echo core_chroot_run locale-gen
 	util_error_echo
-	util_chroot_run locale-gen
+	core_chroot_run locale-gen
 
 	return 0
 
@@ -702,14 +702,14 @@ gxde_build_os_package_management () {
 gxde_build_os_factory_package_install_keyring () {
 
 	util_error_echo
-	util_error_echo util_chroot_run apt install debian-ports-archive-keyring debian-archive-keyring -y
+	util_error_echo core_chroot_run apt install debian-ports-archive-keyring debian-archive-keyring -y
 	util_error_echo
-	util_chroot_run apt install debian-ports-archive-keyring debian-archive-keyring -y
+	core_chroot_run apt install debian-ports-archive-keyring debian-archive-keyring -y
 
 	util_error_echo
-	util_error_echo util_chroot_run apt update -o Acquire::Check-Valid-Until=false
+	util_error_echo core_chroot_run apt update -o Acquire::Check-Valid-Until=false
 	util_error_echo
-	util_chroot_run apt update -o Acquire::Check-Valid-Until=false
+	core_chroot_run apt update -o Acquire::Check-Valid-Until=false
 
 
 	return 0
@@ -718,14 +718,14 @@ gxde_build_os_factory_package_install_keyring () {
 gxde_build_os_factory_package_install_aptss () {
 
 	util_error_echo
-	util_error_echo util_chroot_run apt install aptss -y
+	util_error_echo core_chroot_run apt install aptss -y
 	util_error_echo
-	util_chroot_run apt install aptss -y
+	core_chroot_run apt install aptss -y
 
 	util_error_echo
-	util_error_echo util_chroot_run aptss update -o Acquire::Check-Valid-Until=false
+	util_error_echo core_chroot_run aptss update -o Acquire::Check-Valid-Until=false
 	util_error_echo
-	util_chroot_run aptss update -o Acquire::Check-Valid-Until=false
+	core_chroot_run aptss update -o Acquire::Check-Valid-Until=false
 
 
 	return 0
@@ -734,14 +734,14 @@ gxde_build_os_factory_package_install_aptss () {
 gxde_build_os_package_install_keyring () {
 
 	util_error_echo
-	util_error_echo util_chroot_package_control install debian-ports-archive-keyring debian-archive-keyring -y
+	util_error_echo core_chroot_package_control install debian-ports-archive-keyring debian-archive-keyring -y
 	util_error_echo
-	util_chroot_package_control install debian-ports-archive-keyring debian-archive-keyring -y
+	core_chroot_package_control install debian-ports-archive-keyring debian-archive-keyring -y
 
 	util_error_echo
-	util_error_echo util_chroot_package_control update -o Acquire::Check-Valid-Until=false
+	util_error_echo core_chroot_package_control update -o Acquire::Check-Valid-Until=false
 	util_error_echo
-	util_chroot_package_control update -o Acquire::Check-Valid-Until=false
+	core_chroot_package_control update -o Acquire::Check-Valid-Until=false
 
 
 	return 0
@@ -755,9 +755,9 @@ gxde_build_os_package_install_keyring () {
 gxde_build_os_package_install_gxde_desktop () {
 
 	util_error_echo
-	util_error_echo util_chroot_package_control install gxde-desktop -y --install-recommends
+	util_error_echo core_chroot_package_control install gxde-desktop -y --install-recommends
 	util_error_echo
-	util_chroot_package_control install gxde-desktop -y --install-recommends
+	core_chroot_package_control install gxde-desktop -y --install-recommends
 
 	return 0
 }
@@ -774,16 +774,16 @@ gxde_build_os_package_install_installer () {
 	if [[ "${build_arch}" != "mips64el" ]]; then
 
 		util_error_echo
-		util_error_echo util_chroot_package_control install calamares-settings-gxde -y --install-recommends
+		util_error_echo core_chroot_package_control install calamares-settings-gxde -y --install-recommends
 		util_error_echo
-		util_chroot_package_control install calamares-settings-gxde -y --install-recommends
+		core_chroot_package_control install calamares-settings-gxde -y --install-recommends
 
 	else
 
 		util_error_echo
-		util_error_echo util_chroot_package_control install gxde-installer -y --install-recommends
+		util_error_echo core_chroot_package_control install gxde-installer -y --install-recommends
 		util_error_echo
-		util_chroot_package_control install gxde-installer -y --install-recommends
+		core_chroot_package_control install gxde-installer -y --install-recommends
 
 	fi
 
@@ -811,9 +811,9 @@ gxde_build_os_package_install_installer () {
 gxde_build_os_package_install_live () {
 
 	util_error_echo
-	util_error_echo util_chroot_package_control install live-task-recommended live-task-standard live-config-systemd live-boot -y
+	util_error_echo core_chroot_package_control install live-task-recommended live-task-standard live-config-systemd live-boot -y
 	util_error_echo
-	util_chroot_package_control install live-task-recommended live-task-standard live-config-systemd live-boot -y
+	core_chroot_package_control install live-task-recommended live-task-standard live-config-systemd live-boot -y
 
 
 	return 0
@@ -827,9 +827,9 @@ gxde_build_os_package_install_live () {
 gxde_build_os_package_install_network () {
 
 	util_error_echo
-	util_error_echo util_chroot_package_control install network-manager-gnome -y
+	util_error_echo core_chroot_package_control install network-manager-gnome -y
 	util_error_echo
-	util_chroot_package_control install network-manager-gnome -y
+	core_chroot_package_control install network-manager-gnome -y
 
 
 	return 0
@@ -843,9 +843,9 @@ gxde_build_os_package_install_network () {
 gxde_build_os_package_install_input_method () {
 
 	util_error_echo
-	util_error_echo util_chroot_package_control install im-config fcitx5 fcitx5-chewing fcitx5-pinyin -y
+	util_error_echo core_chroot_package_control install im-config fcitx5 fcitx5-chewing fcitx5-pinyin -y
 	util_error_echo
-	util_chroot_package_control install im-config fcitx5 fcitx5-chewing fcitx5-pinyin -y
+	core_chroot_package_control install im-config fcitx5 fcitx5-chewing fcitx5-pinyin -y
 
 
 	return 0
@@ -864,23 +864,23 @@ gxde_build_os_package_install_app_store () {
 	if [[ "${build_arch}" == "mips64el" ]]; then
 
 		util_error_echo
-		util_error_echo util_chroot_run apt install loongsonapplication -y
+		util_error_echo core_chroot_run apt install loongsonapplication -y
 		util_error_echo
-		util_chroot_run apt install loongsonapplication -y
+		core_chroot_run apt install loongsonapplication -y
 
 	elif [[ "${build_arch}" != "i386" ]]; then
 
 		util_error_echo
-		util_error_echo util_chroot_run apt install spark-store -y
+		util_error_echo core_chroot_run apt install spark-store -y
 		util_error_echo
-		util_chroot_run apt install spark-store -y
+		core_chroot_run apt install spark-store -y
 
 	else
 
 		util_error_echo
-		util_error_echo util_chroot_run apt install aptss -y
+		util_error_echo core_chroot_run apt install aptss -y
 		util_error_echo
-		util_chroot_run apt install aptss -y
+		core_chroot_run apt install aptss -y
 
 	fi
 
@@ -888,15 +888,15 @@ gxde_build_os_package_install_app_store () {
 
 
 	util_error_echo
-	util_error_echo util_chroot_package_control update -o Acquire::Check-Valid-Until=false
+	util_error_echo core_chroot_package_control update -o Acquire::Check-Valid-Until=false
 	util_error_echo
-	util_chroot_package_control update -o Acquire::Check-Valid-Until=false
+	core_chroot_package_control update -o Acquire::Check-Valid-Until=false
 
 
 	util_error_echo
-	util_error_echo util_chroot_package_control full-upgrade -y
+	util_error_echo core_chroot_package_control full-upgrade -y
 	util_error_echo
-	util_chroot_package_control full-upgrade -y
+	core_chroot_package_control full-upgrade -y
 
 
 	return 0
@@ -915,52 +915,52 @@ gxde_build_os_package_install_web_browser () {
 	if [[ "${build_arch}" == "loong64" ]]; then
 
 		util_error_echo
-		util_error_echo util_chroot_run aptss install cn.loongnix.lbrowser -y
+		util_error_echo core_chroot_run aptss install cn.loongnix.lbrowser -y
 		util_error_echo
-		util_chroot_run aptss install cn.loongnix.lbrowser -y
+		core_chroot_run aptss install cn.loongnix.lbrowser -y
 
 	elif [[ "${build_arch}" == "amd64" ]]; then
 
 		util_error_echo
-		util_error_echo util_chroot_run aptss install firefox-spark -y
+		util_error_echo core_chroot_run aptss install firefox-spark -y
 		util_error_echo
-		util_chroot_run aptss install firefox-spark -y
+		core_chroot_run aptss install firefox-spark -y
 
 		util_error_echo
-		util_error_echo util_chroot_run aptss install spark-deepin-cloud-print spark-deepin-cloud-scanner -y
+		util_error_echo core_chroot_run aptss install spark-deepin-cloud-print spark-deepin-cloud-scanner -y
 		util_error_echo
-		util_chroot_run aptss install spark-deepin-cloud-print spark-deepin-cloud-scanner -y
+		core_chroot_run aptss install spark-deepin-cloud-print spark-deepin-cloud-scanner -y
 
 
 		util_error_echo
-		util_error_echo util_chroot_package_control install dummyapp-wps-office dummyapp-spark-deepin-wine-runner -y
+		util_error_echo core_chroot_package_control install dummyapp-wps-office dummyapp-spark-deepin-wine-runner -y
 		util_error_echo
-		util_chroot_package_control install dummyapp-wps-office dummyapp-spark-deepin-wine-runner -y
+		core_chroot_package_control install dummyapp-wps-office dummyapp-spark-deepin-wine-runner -y
 
 	elif [[ "${build_arch}" == "arm64" ]]; then
 
 		util_error_echo
-		util_error_echo util_chroot_run aptss install firefox-spark -y
+		util_error_echo core_chroot_run aptss install firefox-spark -y
 		util_error_echo
-		util_chroot_run aptss install firefox-spark -y
+		core_chroot_run aptss install firefox-spark -y
 
 		util_error_echo
-		util_error_echo util_chroot_package_control install dummyapp-wps-office dummyapp-spark-deepin-wine-runner -y
+		util_error_echo core_chroot_package_control install dummyapp-wps-office dummyapp-spark-deepin-wine-runner -y
 		util_error_echo
-		util_chroot_package_control install dummyapp-wps-office dummyapp-spark-deepin-wine-runner -y
+		core_chroot_package_control install dummyapp-wps-office dummyapp-spark-deepin-wine-runner -y
 
 	else
 
 		#util_error_echo
-		#util_error_echo util_chroot_package_control install chromium chromium-l10n -y
+		#util_error_echo core_chroot_package_control install chromium chromium-l10n -y
 		#util_error_echo
-		#util_chroot_package_control install chromium chromium-l10n -y
+		#core_chroot_package_control install chromium chromium-l10n -y
 
 
 		util_error_echo
-		util_error_echo util_chroot_package_control install firefox-esr firefox-esr-l10n-zh-tw firefox-esr-l10n-zh-cn -y
+		util_error_echo core_chroot_package_control install firefox-esr firefox-esr-l10n-zh-tw firefox-esr-l10n-zh-cn -y
 		util_error_echo
-		util_chroot_package_control install firefox-esr firefox-esr-l10n-zh-tw firefox-esr-l10n-zh-cn -y
+		core_chroot_package_control install firefox-esr firefox-esr-l10n-zh-tw firefox-esr-l10n-zh-cn -y
 
 	fi
 
@@ -985,9 +985,9 @@ gxde_build_os_package_install_each () {
 		#util_error_echo ${list_file_path}
 
 		util_error_echo
-		util_error_echo util_chroot_package_control install $(util_package_find_list ${list_file_path}) -y
+		util_error_echo core_chroot_package_control install $(util_package_find_list ${list_file_path}) -y
 		util_error_echo
-		util_chroot_package_control install $(util_package_find_list ${list_file_path}) -y
+		core_chroot_package_control install $(util_package_find_list ${list_file_path}) -y
 
 	done
 
@@ -1012,9 +1012,9 @@ gxde_build_os_package_remove_each () {
 		#util_error_echo ${list_file_path}
 
 		util_error_echo
-		util_error_echo util_chroot_package_control remove $(util_package_find_list ${list_file_path}) -y
+		util_error_echo core_chroot_package_control remove $(util_package_find_list ${list_file_path}) -y
 		util_error_echo
-		util_chroot_package_control remove $(util_package_find_list ${list_file_path}) -y
+		core_chroot_package_control remove $(util_package_find_list ${list_file_path}) -y
 
 	done
 
@@ -1040,9 +1040,9 @@ gxde_build_os_package_install_kernel () {
 	if [[ "${build_arch}" != "amd64" ]]; then
 
 		util_error_echo
-		util_error_echo util_chroot_package_control autopurge "linux-image-*" "linux-headers-*" -y
+		util_error_echo core_chroot_package_control autopurge "linux-image-*" "linux-headers-*" -y
 		util_error_echo
-		util_chroot_package_control autopurge "linux-image-*" "linux-headers-*" -y
+		core_chroot_package_control autopurge "linux-image-*" "linux-headers-*" -y
 
 	fi
 
@@ -1050,12 +1050,12 @@ gxde_build_os_package_install_kernel () {
 	##
 	## ## install main kernel
 	##
-	#util_chroot_package_control install linux-headers-generic linux-image-generic -y
+	#core_chroot_package_control install linux-headers-generic linux-image-generic -y
 
 	util_error_echo
-	util_error_echo util_chroot_package_control install ${kernel_package} -y
+	util_error_echo core_chroot_package_control install ${kernel_package} -y
 	util_error_echo
-	util_chroot_package_control install ${kernel_package} -y
+	core_chroot_package_control install ${kernel_package} -y
 
 
 	##
@@ -1064,9 +1064,9 @@ gxde_build_os_package_install_kernel () {
 	if [[ "${build_arch}" == "amd64" ]] || [[ "${build_arch}" == "i386" ]] || [[ "${build_arch}" == "mips64el" ]]; then
 
 		util_error_echo
-		util_error_echo util_chroot_package_control install ${oldstable_kernel_package} -y
+		util_error_echo core_chroot_package_control install ${oldstable_kernel_package} -y
 		util_error_echo
-		util_chroot_package_control install ${oldstable_kernel_package} -y
+		core_chroot_package_control install ${oldstable_kernel_package} -y
 
 	fi
 
@@ -1082,15 +1082,15 @@ gxde_build_os_package_install_kernel () {
 gxde_build_os_package_install_driver () {
 
 	util_error_echo
-	util_error_echo util_chroot_package_control install firmware-linux firmware-linux-free firmware-linux-nonfree -y
+	util_error_echo core_chroot_package_control install firmware-linux firmware-linux-free firmware-linux-nonfree -y
 	util_error_echo
-	util_chroot_package_control install firmware-linux firmware-linux-free firmware-linux-nonfree -y
+	core_chroot_package_control install firmware-linux firmware-linux-free firmware-linux-nonfree -y
 
 
 	util_error_echo
-	util_error_echo util_chroot_package_control install firmware-iwlwifi firmware-realtek -y
+	util_error_echo core_chroot_package_control install firmware-iwlwifi firmware-realtek -y
 	util_error_echo
-	util_chroot_package_control install firmware-iwlwifi firmware-realtek -y
+	core_chroot_package_control install firmware-iwlwifi firmware-realtek -y
 
 
 	return 0
@@ -1104,9 +1104,9 @@ gxde_build_os_package_install_driver () {
 gxde_build_os_package_install_grub () {
 
 	util_error_echo
-	util_error_echo util_chroot_package_control install grub-common -y
+	util_error_echo core_chroot_package_control install grub-common -y
 	util_error_echo
-	util_chroot_package_control install grub-common -y
+	core_chroot_package_control install grub-common -y
 
 
 	return 0
@@ -1120,15 +1120,15 @@ gxde_build_os_package_install_grub () {
 gxde_build_os_package_clean () {
 
 	util_error_echo
-	util_error_echo util_chroot_package_control autopurge -y
+	util_error_echo core_chroot_package_control autopurge -y
 	util_error_echo
-	util_chroot_package_control autopurge -y
+	core_chroot_package_control autopurge -y
 
 
 	util_error_echo
-	util_error_echo util_chroot_package_control clean -y
+	util_error_echo core_chroot_package_control clean -y
 	util_error_echo
-	util_chroot_package_control clean -y
+	core_chroot_package_control clean -y
 
 
 	return 0
@@ -1148,30 +1148,30 @@ gxde_build_os_package_downlod () {
 	## ## download debian package
 	##
 	util_error_echo
-	util_error_echo util_chroot_package_control install grub-pc -y --download-only
+	util_error_echo core_chroot_package_control install grub-pc -y --download-only
 	util_error_echo
-	util_chroot_package_control install grub-pc -y --download-only
+	core_chroot_package_control install grub-pc -y --download-only
 
 
 	util_error_echo
-	util_error_echo util_chroot_package_control install "grub-efi-${build_arch}" -y --download-only
+	util_error_echo core_chroot_package_control install "grub-efi-${build_arch}" -y --download-only
 	util_error_echo
-	util_chroot_package_control install "grub-efi-${build_arch}" -y --download-only
+	core_chroot_package_control install "grub-efi-${build_arch}" -y --download-only
 
 	util_error_echo
-	util_error_echo util_chroot_package_control install grub-efi -y --download-only
+	util_error_echo core_chroot_package_control install grub-efi -y --download-only
 	util_error_echo
-	util_chroot_package_control install grub-efi -y --download-only
+	core_chroot_package_control install grub-efi -y --download-only
 
 	util_error_echo
-	util_error_echo util_chroot_package_control install grub-common -y --download-only
+	util_error_echo core_chroot_package_control install grub-common -y --download-only
 	util_error_echo
-	util_chroot_package_control install grub-common -y --download-only
+	core_chroot_package_control install grub-common -y --download-only
 
 	util_error_echo
-	util_error_echo util_chroot_package_control install cryptsetup-initramfs cryptsetup keyutils -y --download-only
+	util_error_echo core_chroot_package_control install cryptsetup-initramfs cryptsetup keyutils -y --download-only
 	util_error_echo
-	util_chroot_package_control install cryptsetup-initramfs cryptsetup keyutils -y --download-only
+	core_chroot_package_control install cryptsetup-initramfs cryptsetup keyutils -y --download-only
 
 
 
@@ -1204,9 +1204,9 @@ gxde_build_os_package_downlod () {
 
 
 	util_error_echo
-	util_error_echo util_chroot_package_control clean -y
+	util_error_echo core_chroot_package_control clean -y
 	util_error_echo
-	util_chroot_package_control clean -y
+	core_chroot_package_control clean -y
 
 
 	return 0
@@ -1270,9 +1270,9 @@ gxde_build_os_hook () {
 
 
 		util_error_echo
-		util_error_echo util_chroot_run "${chroot_hook_file_path}"
+		util_error_echo core_chroot_run "${chroot_hook_file_path}"
 		util_error_echo
-		util_chroot_run "${chroot_hook_file_path}"
+		core_chroot_run "${chroot_hook_file_path}"
 
 	done
 
