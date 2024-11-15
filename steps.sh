@@ -60,12 +60,17 @@ REF_PLAN_OUT_DIR_PATH="${REF_PLAN_TMP_DIR_PATH}/${REF_PLAN_OUT_DIR_NAME}"
 ## ## Main / Args
 ##
 
-DEFAULT_IS_USE_APTSS="false"
-REF_IS_USE_APTSS="${REF_IS_USE_APTSS:=$DEFAULT_IS_USE_APTSS}"
+
+DEFAULT_MAIN_RUN="steps"
+REF_MAIN_RUN="${REF_MAIN_RUN:=$DEFAULT_MAIN_RUN}"
 
 
 DEFAULT_BUILD_ARCH="amd64"
 REF_BUILD_ARCH="${REF_BUILD_ARCH:=$DEFAULT_BUILD_ARCH}"
+
+
+DEFAULT_IS_USE_APTSS="false"
+REF_IS_USE_APTSS="${REF_IS_USE_APTSS:=$DEFAULT_IS_USE_APTSS}"
 
 
 ##
@@ -1807,12 +1812,17 @@ gxde_build_iso_start () {
 
 	main_signal_bind
 
-
 	limit_root_user_required
 
-	#gxde_build_iso_steps
 
-	gxde_build_iso_develop_test
+	local main_run="${REF_MAIN_RUN}"
+
+	if [[ "${main_run}" == "test" ]]; then
+		gxde_build_iso_develop_test
+	else
+		gxde_build_iso_steps
+	fi
+
 
 	return 0
 }
