@@ -1863,6 +1863,8 @@ exit_on_signal_interrupted () {
 	## TODO:
 
 	sleep 2
+	gxde_target_os_unmount_for_chroot
+
 
 	exit 0
 
@@ -1879,6 +1881,7 @@ exit_on_signal_terminated () {
 	## TODO:
 
 	sleep 2
+
 
 	exit 0
 
