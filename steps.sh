@@ -198,7 +198,7 @@ util_package_find_list () {
 ## ## Target OS / Util
 ##
 
-function util_chroot_package_control () {
+util_chroot_package_control () {
 
 	local is_use_aptss="${REF_IS_USE_APTSS}"
 
@@ -210,7 +210,7 @@ function util_chroot_package_control () {
 
 }
 
-function util_chroot_run () {
+util_chroot_run () {
 
 	local rootfs="${REF_TARGET_OS_ROOT_DIR_PATH}"
 
@@ -230,7 +230,7 @@ function util_chroot_run () {
 
 }
 
-function gxde_target_os_mount_for_chroot () {
+gxde_target_os_mount_for_chroot () {
 
 	util_error_echo
 	util_error_echo "##"
@@ -244,7 +244,7 @@ function gxde_target_os_mount_for_chroot () {
 
 }
 
-function util_target_os_mount_for_chroot () {
+util_target_os_mount_for_chroot () {
 
 	local rootfs="${1}"
 
@@ -260,7 +260,7 @@ function util_target_os_mount_for_chroot () {
 	return 0
 }
 
-function gxde_target_os_unmount_for_chroot () {
+gxde_target_os_unmount_for_chroot () {
 
 	util_error_echo
 	util_error_echo "##"
@@ -274,7 +274,7 @@ function gxde_target_os_unmount_for_chroot () {
 
 }
 
-function util_target_os_unmount_for_chroot () {
+util_target_os_unmount_for_chroot () {
 
 	local rootfs="${1}"
 
