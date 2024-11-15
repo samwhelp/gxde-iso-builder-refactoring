@@ -117,6 +117,22 @@ REF_FACTORY_OVERLAY_DIR_PATH="${REF_PLAN_FACTORY_DIR_PATH}/${REF_FACTORY_OVERLAY
 
 
 ##
+## ## Package List / Path
+##
+
+REF_PACKAGE_LIST_DIR_NAME="package"
+REF_PACKAGE_LIST_DIR_PATH="${REF_PLAN_ASSET_DIR_PATH}/${REF_PACKAGE_LIST_DIR_NAME}"
+
+
+REF_PACKAGE_INSTALL_DIR_NAME="install"
+REF_PACKAGE_INSTALL_DIR_PATH="${REF_PACKAGE_LIST_DIR_PATH}/${REF_PACKAGE_INSTALL_DIR_NAME}"
+
+
+REF_PACKAGE_REMOVE_DIR_NAME="remove"
+REF_PACKAGE_REMOVE_DIR_PATH="${REF_PACKAGE_LIST_DIR_PATH}/${REF_PACKAGE_REMOVE_DIR_NAME}"
+
+
+##
 ## ## Hook / Path
 ##
 
@@ -280,6 +296,12 @@ gxde_build_iso_package_required () {
 
 gxde_build_iso_develop_test () {
 
+	gxde_build_iso_develop_test_package_management
+
+}
+
+gxde_build_iso_develop_test_package_management () {
+
 	util_error_echo
 	util_error_echo "##"
 	util_error_echo "## ## gxde_build_iso_develop_test"
@@ -302,10 +324,10 @@ gxde_build_iso_develop_test () {
 	#gxde_build_os_factory_package_management_for_aptss
 
 
-	#gxde_build_os_package_management
+	gxde_build_os_package_management
 	#gxde_build_os_overlay
 	#gxde_build_os_locale
-	gxde_build_os_hook
+	#gxde_build_os_hook
 
 
 	#gxde_build_os_clean
@@ -613,6 +635,13 @@ gxde_build_os_package_management () {
 	gxde_build_os_package_install_gxde_desktop
 
 
+
+
+	gxde_build_os_package_install_each
+	gxde_build_os_package_remove_each
+
+
+
 	return 0
 }
 
@@ -677,6 +706,60 @@ gxde_build_os_package_install_gxde_desktop () {
 	util_chroot_package_control install gxde-desktop -y --install-recommends
 
 	return 0
+}
+
+
+##
+## ## GXDE / Build Target OS / Package Management / Install By List File
+##
+
+gxde_build_os_package_install_each () {
+
+	local list_dir_path="${REF_PACKAGE_INSTALL_DIR_PATH}"
+
+	local list_file_path=""
+
+	for list_file_path in "${list_dir_path}"/*.txt; do
+
+		#util_error_echo ${list_file_path}
+
+		util_error_echo
+		util_error_echo util_chroot_package_control install $(util_package_find_list ${list_file_path}) -y
+		util_error_echo
+		util_chroot_package_control install $(util_package_find_list ${list_file_path}) -y
+
+	done
+
+
+	return 0
+
+}
+
+
+##
+## ## GXDE / Build Target OS / Package Management / Remove By List File
+##
+
+gxde_build_os_package_remove_each () {
+
+	local list_dir_path="${REF_PACKAGE_REMOVE_DIR_PATH}"
+
+	local list_file_path=""
+
+	for list_file_path in "${list_dir_path}"/*.txt; do
+
+		#util_error_echo ${list_file_path}
+
+		util_error_echo
+		util_error_echo util_chroot_package_control remove $(util_package_find_list ${list_file_path}) -y
+		util_error_echo
+		util_chroot_package_control remove $(util_package_find_list ${list_file_path}) -y
+
+	done
+
+
+	return 0
+
 }
 
 
