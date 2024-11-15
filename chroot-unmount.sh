@@ -16,15 +16,15 @@ if [[ -z "${REF_TARGET_OS_ROOT_DIR_PATH}" ]]; then
 fi
 
 
-function gxde_target_os_unmount_for_chroot () {
+gxde_target_os_unmount_for_chroot () {
 
 	local rootfs="${REF_TARGET_OS_ROOT_DIR_PATH}"
 
-	util_target_os_unmount_for_chroot "${rootfs}"
+	core_target_os_unmount_for_chroot "${rootfs}"
 
 }
 
-function util_target_os_unmount_for_chroot () {
+core_target_os_unmount_for_chroot () {
 
 	local rootfs="${1}"
 
