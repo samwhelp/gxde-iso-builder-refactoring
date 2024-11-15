@@ -675,6 +675,11 @@ gxde_build_os_package_management () {
 
 
 
+	gxde_build_os_package_clean
+
+
+
+
 	return 0
 }
 
@@ -884,6 +889,27 @@ gxde_build_os_package_install_grub () {
 	return 0
 }
 
+
+##
+## ## GXDE / Build Target OS / Package Management / Clean
+##
+
+gxde_build_os_package_clean () {
+
+	util_error_echo
+	util_error_echo util_chroot_package_control autopurge -y
+	util_error_echo
+	util_chroot_package_control autopurge -y
+
+
+	util_error_echo
+	util_error_echo util_chroot_package_control clean -y
+	util_error_echo
+	util_chroot_package_control clean -y
+
+
+	return 0
+}
 
 ##
 ## ## GXDE / Build Target OS / Hook
