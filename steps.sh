@@ -657,12 +657,12 @@ gxde_build_os_package_management () {
 
 
 
-	#gxde_build_os_package_install_keyring
+	gxde_build_os_package_install_keyring
 
 
 
 
-	#gxde_build_os_package_install_gxde_desktop
+	gxde_build_os_package_install_gxde_desktop
 	gxde_build_os_package_install_installer
 	gxde_build_os_package_install_live
 	gxde_build_os_package_install_network
@@ -677,21 +677,21 @@ gxde_build_os_package_management () {
 
 
 
-	#gxde_build_os_package_install_each
-	#gxde_build_os_package_remove_each
+	gxde_build_os_package_install_each
+	gxde_build_os_package_remove_each
 
 
 
 
-	#gxde_build_os_package_install_kernel
-	#gxde_build_os_package_install_driver
-	#gxde_build_os_package_install_grub
+	gxde_build_os_package_install_kernel
+	gxde_build_os_package_install_driver
+	gxde_build_os_package_install_grub
 
 
 
 
-	#gxde_build_os_package_clean
-	#gxde_build_os_package_downlod
+	gxde_build_os_package_clean
+	gxde_build_os_package_downlod
 
 
 
