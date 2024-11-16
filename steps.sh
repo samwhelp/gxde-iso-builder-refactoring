@@ -173,6 +173,7 @@ master_var_init () {
 
 	DEFAULT_BUILD_ARCH="amd64"
 	REF_BUILD_ARCH="${REF_BUILD_ARCH:=$DEFAULT_BUILD_ARCH}"
+	REF_BUILD_ARCH_OPTION_LIST="amd64 arm64 mips64el loong64 i386"
 
 
 	DEFAULT_IS_USE_APTSS="false"
@@ -188,6 +189,7 @@ master_var_init () {
 
 	DEFAULT_BUILD_LOCALE="en_us"
 	REF_BUILD_LOCALE="${REF_BUILD_LOCALE:=$DEFAULT_BUILD_LOCALE}"
+	REF_BUILD_LOCALE_OPTION_LIST="en_us zh_tw zh_cn zh_hk"
 
 
 	##
@@ -311,6 +313,7 @@ master_var_dump () {
 	util_debug_echo
 	util_debug_echo "DEFAULT_BUILD_ARCH=${DEFAULT_BUILD_ARCH}"
 	util_debug_echo "REF_BUILD_ARCH=${REF_BUILD_ARCH}"
+	util_debug_echo "REF_BUILD_ARCH_OPTION_LIST=${REF_BUILD_ARCH_OPTION_LIST}"
 
 	util_debug_echo
 	util_debug_echo "DEFAULT_IS_USE_APTSS=${DEFAULT_IS_USE_APTSS}"
@@ -2258,7 +2261,7 @@ _main_check_args_size_ () {
 		util_error_echo "##"
 		util_error_echo
 
-		util_error_echo "> Build Arch Options: i386 amd64 arm64 mips64el loong64"
+		util_error_echo "> Build Arch Options: ${REF_BUILD_ARCH_OPTION_LIST}"
 		util_error_echo
 		util_error_echo "SYNOPSIS : sudo ./${REF_CMD_FILE_NAME} [build_arch] [aptss]"
 		util_error_echo
