@@ -16,163 +16,446 @@ REF_BASE_DIR_PATH="$(cd -- "$(dirname -- "$0")" ; pwd)"
 REF_CMD_FILE_NAME="$(basename "$0")"
 
 
+DEFAULT_IS_DEBUG="false"
+IS_DEBUG="${IS_DEBUG:=$DEFAULT_IS_DEBUG}"
+
+
 ##
 ## ## Main / Util
 ##
 
 util_error_echo () {
-	echo "$@" 1>&2
+	echo "${@}" 1>&2
+}
+
+util_debug_echo () {
+
+	if is_debug; then
+		echo "${@}" 1>&2
+	fi
+
+}
+
+is_debug () {
+
+	if [[ "${IS_DEBUG}" == "true" ]]; then
+		return 0
+	fi
+
+	return 1
+
+}
+
+is_not_debug () {
+
+	! is_debug
+
 }
 
 
 ##
-## ## Plan / Path
+## ## Main / Variable
 ##
 
-REF_MAIN_SUBJECT_NAME="gxde"
-REF_PLAN_DIR_PATH="${REF_BASE_DIR_PATH}"
+main_var_init () {
+
+	##
+	## ## Plan / Path
+	##
+
+	REF_MAIN_SUBJECT_NAME="gxde"
+	REF_PLAN_DIR_PATH="${REF_BASE_DIR_PATH}"
 
 
 
-REF_PLAN_ASSET_DIR_NAME="asset"
-REF_PLAN_ASSET_DIR_PATH="${REF_PLAN_DIR_PATH}/${REF_PLAN_ASSET_DIR_NAME}"
+	REF_PLAN_ASSET_DIR_NAME="asset"
+	REF_PLAN_ASSET_DIR_PATH="${REF_PLAN_DIR_PATH}/${REF_PLAN_ASSET_DIR_NAME}"
 
 
-REF_PLAN_FACTORY_DIR_NAME="factory"
-REF_PLAN_FACTORY_DIR_PATH="${REF_PLAN_DIR_PATH}/${REF_PLAN_FACTORY_DIR_NAME}"
+	REF_PLAN_FACTORY_DIR_NAME="factory"
+	REF_PLAN_FACTORY_DIR_PATH="${REF_PLAN_DIR_PATH}/${REF_PLAN_FACTORY_DIR_NAME}"
 
 
-REF_PLAN_TMP_DIR_NAME="tmp"
-REF_PLAN_TMP_DIR_PATH="${REF_PLAN_DIR_PATH}/${REF_PLAN_TMP_DIR_NAME}"
+	REF_PLAN_TMP_DIR_NAME="tmp"
+	REF_PLAN_TMP_DIR_PATH="${REF_PLAN_DIR_PATH}/${REF_PLAN_TMP_DIR_NAME}"
 
-#REF_PLAN_TMP_DIR_PATH="${HOME}/${REF_PLAN_TMP_DIR_NAME}/${REF_MAIN_SUBJECT_NAME}"
-REF_PLAN_TMP_DIR_PATH="/opt/${REF_PLAN_TMP_DIR_NAME}/${REF_MAIN_SUBJECT_NAME}"
-
-
-REF_PLAN_WORK_DIR_NAME="work"
-REF_PLAN_WORK_DIR_PATH="${REF_PLAN_TMP_DIR_PATH}/${REF_PLAN_WORK_DIR_NAME}"
-
-REF_PLAN_OUT_DIR_NAME="out"
-REF_PLAN_OUT_DIR_PATH="${REF_PLAN_TMP_DIR_PATH}/${REF_PLAN_OUT_DIR_NAME}"
+	#REF_PLAN_TMP_DIR_PATH="${HOME}/${REF_PLAN_TMP_DIR_NAME}/${REF_MAIN_SUBJECT_NAME}"
+	REF_PLAN_TMP_DIR_PATH="/opt/${REF_PLAN_TMP_DIR_NAME}/${REF_MAIN_SUBJECT_NAME}"
 
 
-##
-## ## Main / Args
-##
+	REF_PLAN_WORK_DIR_NAME="work"
+	REF_PLAN_WORK_DIR_PATH="${REF_PLAN_TMP_DIR_PATH}/${REF_PLAN_WORK_DIR_NAME}"
 
-DEFAULT_BUILD_ARCH="amd64"
-REF_BUILD_ARCH="${REF_BUILD_ARCH:=$DEFAULT_BUILD_ARCH}"
-
-
-DEFAULT_IS_USE_APTSS="false"
-REF_IS_USE_APTSS="${REF_IS_USE_APTSS:=$DEFAULT_IS_USE_APTSS}"
+	REF_PLAN_OUT_DIR_NAME="out"
+	REF_PLAN_OUT_DIR_PATH="${REF_PLAN_TMP_DIR_PATH}/${REF_PLAN_OUT_DIR_NAME}"
 
 
-##
-## ## Main / Opts
-##
+	return 0
+}
 
-DEFAULT_MAIN_RUN="steps"
-REF_MAIN_RUN="${REF_MAIN_RUN:=$DEFAULT_MAIN_RUN}"
+main_var_dump () {
 
-DEFAULT_BUILD_LOCALE="en_us"
-REF_BUILD_LOCALE="${REF_BUILD_LOCALE:=$DEFAULT_BUILD_LOCALE}"
+	is_not_debug && return 0
 
 
-##
-## ## Target OS / Path
-##
-
-REF_TARGET_OS_ROOT_DIR_NAME="rootfs"
-REF_TARGET_OS_ROOT_DIR_PATH="${REF_PLAN_WORK_DIR_PATH}/${REF_TARGET_OS_ROOT_DIR_NAME}"
-
-
-REF_TARGET_OS_ARCHIVE_FILE_NAME="filesystem.squashfs"
-REF_TARGET_OS_ARCHIVE_FILE_PATH="${REF_PLAN_WORK_DIR_PATH}/${REF_TARGET_OS_ARCHIVE_FILE_NAME}"
-
-
-##
-## ## Target OS / debootstrap args
-##
-
-#DEFAULT_BUILD_ARCH="amd64"
-#REF_BUILD_ARCH="${REF_BUILD_ARCH:=$DEFAULT_BUILD_ARCH}"
-
-DEFAULT_BUILD_SUITE="bookworm"
-REF_BUILD_SUITE="${REF_BUILD_SUITE:=$DEFAULT_BUILD_SUITE}"
-
-DEFAULT_PACKAGE_REPO_URL="https://mirrors.tuna.tsinghua.edu.cn/debian/"
-REF_PACKAGE_REPO_URL="${REF_PACKAGE_REPO_URL:=$DEFAULT_PACKAGE_REPO_URL}"
-
-DEFAULT_BUILD_INCLUDE="debian-ports-archive-keyring,debian-archive-keyring,live-task-recommended,live-task-standard,live-config-systemd,live-boot"
-REF_BUILD_INCLUDE="${REF_BUILD_INCLUDE:=$DEFAULT_BUILD_INCLUDE}"
+	util_debug_echo
+	util_debug_echo "##"
+	util_debug_echo "## ## Tips"
+	util_debug_echo "##"
+	util_debug_echo
+	util_debug_echo "> Hide Dump Info"
+	util_debug_echo
+	util_debug_echo "\$ export IS_DEBUG=false"
+	util_debug_echo
 
 
-## for --arch=loong64
-DEFAULT_BUILD_KEYRING_FOR_LOONG64="/usr/share/keyrings/debian-ports-archive-keyring.gpg"
-REF_BUILD_KEYRING_FOR_LOONG64="${REF_BUILD_KEYRING_FOR_LOONG64:=$DEFAULT_BUILD_KEYRING_FOR_LOONG64}"
+	util_debug_echo
+	util_debug_echo "##"
+	util_debug_echo "## ## Dump / main_var_dump"
+	util_debug_echo "##"
 
-DEFAULT_PACKAGE_REPO_URL_FOR_LOONG64="https://mirror.sjtu.edu.cn/debian-ports/"
-REF_PACKAGE_REPO_URL_FOR_LOONG64="${REF_PACKAGE_REPO_URL_FOR_LOONG64:=$DEFAULT_PACKAGE_REPO_URL_FOR_LOONG64}"
+	util_debug_echo
+	util_debug_echo "REF_BASE_DIR_PATH=${REF_BASE_DIR_PATH}"
+	util_debug_echo "REF_CMD_FILE_NAME=${REF_CMD_FILE_NAME}"
 
-
-##
-## ## Overlay / Path
-##
-
-REF_OVERLAY_DIR_NAME="overlay"
-REF_OVERLAY_DIR_PATH="${REF_PLAN_ASSET_DIR_PATH}/${REF_OVERLAY_DIR_NAME}"
-
-REF_FACTORY_OVERLAY_DIR_NAME="${REF_OVERLAY_DIR_NAME}"
-REF_FACTORY_OVERLAY_DIR_PATH="${REF_PLAN_FACTORY_DIR_PATH}/${REF_FACTORY_OVERLAY_DIR_NAME}"
+	util_debug_echo
+	util_debug_echo "DEFAULT_IS_DEBUG=${DEFAULT_IS_DEBUG}"
+	util_debug_echo "IS_DEBUG=${IS_DEBUG}"
 
 
-##
-## ## Package List / Path
-##
-
-REF_PACKAGE_LIST_DIR_NAME="package"
-REF_PACKAGE_LIST_DIR_PATH="${REF_PLAN_ASSET_DIR_PATH}/${REF_PACKAGE_LIST_DIR_NAME}"
 
 
-REF_PACKAGE_INSTALL_DIR_NAME="install"
-REF_PACKAGE_INSTALL_DIR_PATH="${REF_PACKAGE_LIST_DIR_PATH}/${REF_PACKAGE_INSTALL_DIR_NAME}"
+	util_debug_echo
+	util_debug_echo "REF_MAIN_SUBJECT_NAME=${REF_MAIN_SUBJECT_NAME}"
+	util_debug_echo "REF_PLAN_DIR_PATH=${REF_PLAN_DIR_PATH}"
+
+	util_debug_echo
+	util_debug_echo "REF_PLAN_ASSET_DIR_NAME=${REF_PLAN_ASSET_DIR_NAME}"
+	util_debug_echo "REF_PLAN_ASSET_DIR_PATH=${REF_PLAN_ASSET_DIR_PATH}"
+
+	util_debug_echo
+	util_debug_echo "REF_PLAN_FACTORY_DIR_NAME=${REF_PLAN_FACTORY_DIR_NAME}"
+	util_debug_echo "REF_PLAN_FACTORY_DIR_PATH=${REF_PLAN_FACTORY_DIR_PATH}"
+
+	util_debug_echo
+	util_debug_echo "REF_PLAN_TMP_DIR_NAME=${REF_PLAN_TMP_DIR_NAME}"
+	util_debug_echo "REF_PLAN_TMP_DIR_PATH=${REF_PLAN_TMP_DIR_PATH}"
+
+	util_debug_echo
+	util_debug_echo "REF_PLAN_WORK_DIR_NAME=${REF_PLAN_WORK_DIR_NAME}"
+	util_debug_echo "REF_PLAN_WORK_DIR_PATH=${REF_PLAN_WORK_DIR_PATH}"
+
+	util_debug_echo
+	util_debug_echo "REF_PLAN_OUT_DIR_NAME=${REF_PLAN_OUT_DIR_NAME}"
+	util_debug_echo "REF_PLAN_OUT_DIR_PATH=${REF_PLAN_OUT_DIR_PATH}"
 
 
-REF_PACKAGE_REMOVE_DIR_NAME="remove"
-REF_PACKAGE_REMOVE_DIR_PATH="${REF_PACKAGE_LIST_DIR_PATH}/${REF_PACKAGE_REMOVE_DIR_NAME}"
+
+
+	return 0
+}
+
+main_var_init
+
+main_var_dump
 
 
 ##
-## ## Hook / Path
+## ## Master / Variable
 ##
 
-REF_HOOK_DIR_NAME="hook"
-REF_HOOK_DIR_PATH="${REF_PLAN_FACTORY_DIR_PATH}/${REF_HOOK_DIR_NAME}"
+master_var_init () {
 
 
-##
-## ## ISO Template / Path
-##
+	##
+	## ## Master / Args
+	##
 
-REF_ISO_TEMPLATE_SOURCE_DIR_NAME="iso-template"
-REF_ISO_TEMPLATE_SOURCE_DIR_PATH="${REF_PLAN_FACTORY_DIR_PATH}/${REF_ISO_TEMPLATE_SOURCE_DIR_NAME}"
-
-
-REF_ISO_TEMPLATE_TARGET_DIR_NAME="${REF_ISO_TEMPLATE_SOURCE_DIR_NAME}"
-REF_ISO_TEMPLATE_TARGET_DIR_PATH="${REF_PLAN_WORK_DIR_PATH}/${REF_ISO_TEMPLATE_TARGET_DIR_NAME}"
+	DEFAULT_BUILD_ARCH="amd64"
+	REF_BUILD_ARCH="${REF_BUILD_ARCH:=$DEFAULT_BUILD_ARCH}"
 
 
-##
-## ## Live Deb / Path
-##
-
-REF_LIVE_DEB_MIDDLE_DIR_NAME="live-deb"
-REF_LIVE_DEB_MIDDLE_DIR_PATH="${REF_PLAN_WORK_DIR_PATH}/${REF_LIVE_DEB_MIDDLE_DIR_NAME}"
+	DEFAULT_IS_USE_APTSS="false"
+	REF_IS_USE_APTSS="${REF_IS_USE_APTSS:=$DEFAULT_IS_USE_APTSS}"
 
 
-REF_LIVE_DEB_SOURCE_DIR_NAME="archives"
-REF_LIVE_DEB_SOURCE_DIR_PATH="${REF_TARGET_OS_ROOT_DIR_PATH}/var/cache/apt/${REF_LIVE_DEB_SOURCE_DIR_NAME}"
+	##
+	## ## Master / Opts
+	##
+
+	DEFAULT_MAIN_RUN="steps"
+	REF_MAIN_RUN="${REF_MAIN_RUN:=$DEFAULT_MAIN_RUN}"
+
+	DEFAULT_BUILD_LOCALE="en_us"
+	REF_BUILD_LOCALE="${REF_BUILD_LOCALE:=$DEFAULT_BUILD_LOCALE}"
+
+
+	##
+	## ## Target OS / Path
+	##
+
+	REF_TARGET_OS_ROOT_DIR_NAME="rootfs"
+	REF_TARGET_OS_ROOT_DIR_PATH="${REF_PLAN_WORK_DIR_PATH}/${REF_TARGET_OS_ROOT_DIR_NAME}"
+
+
+	REF_TARGET_OS_ARCHIVE_FILE_NAME="filesystem.squashfs"
+	REF_TARGET_OS_ARCHIVE_FILE_PATH="${REF_PLAN_WORK_DIR_PATH}/${REF_TARGET_OS_ARCHIVE_FILE_NAME}"
+
+
+	##
+	## ## Target OS / debootstrap args
+	##
+
+	#DEFAULT_BUILD_ARCH="amd64"
+	#REF_BUILD_ARCH="${REF_BUILD_ARCH:=$DEFAULT_BUILD_ARCH}"
+
+	DEFAULT_BUILD_SUITE="bookworm"
+	REF_BUILD_SUITE="${REF_BUILD_SUITE:=$DEFAULT_BUILD_SUITE}"
+
+	DEFAULT_PACKAGE_REPO_URL="https://mirrors.tuna.tsinghua.edu.cn/debian/"
+	REF_PACKAGE_REPO_URL="${REF_PACKAGE_REPO_URL:=$DEFAULT_PACKAGE_REPO_URL}"
+
+	DEFAULT_BUILD_INCLUDE="debian-ports-archive-keyring,debian-archive-keyring,live-task-recommended,live-task-standard,live-config-systemd,live-boot"
+	REF_BUILD_INCLUDE="${REF_BUILD_INCLUDE:=$DEFAULT_BUILD_INCLUDE}"
+
+
+	## for --arch=loong64
+	DEFAULT_BUILD_KEYRING_FOR_LOONG64="/usr/share/keyrings/debian-ports-archive-keyring.gpg"
+	REF_BUILD_KEYRING_FOR_LOONG64="${REF_BUILD_KEYRING_FOR_LOONG64:=$DEFAULT_BUILD_KEYRING_FOR_LOONG64}"
+
+	DEFAULT_PACKAGE_REPO_URL_FOR_LOONG64="https://mirror.sjtu.edu.cn/debian-ports/"
+	REF_PACKAGE_REPO_URL_FOR_LOONG64="${REF_PACKAGE_REPO_URL_FOR_LOONG64:=$DEFAULT_PACKAGE_REPO_URL_FOR_LOONG64}"
+
+
+	##
+	## ## Overlay / Path
+	##
+
+	REF_OVERLAY_DIR_NAME="overlay"
+	REF_OVERLAY_DIR_PATH="${REF_PLAN_ASSET_DIR_PATH}/${REF_OVERLAY_DIR_NAME}"
+
+	REF_FACTORY_OVERLAY_DIR_NAME="${REF_OVERLAY_DIR_NAME}"
+	REF_FACTORY_OVERLAY_DIR_PATH="${REF_PLAN_FACTORY_DIR_PATH}/${REF_FACTORY_OVERLAY_DIR_NAME}"
+
+
+	##
+	## ## Package List / Path
+	##
+
+	REF_PACKAGE_LIST_DIR_NAME="package"
+	REF_PACKAGE_LIST_DIR_PATH="${REF_PLAN_ASSET_DIR_PATH}/${REF_PACKAGE_LIST_DIR_NAME}"
+
+
+	REF_PACKAGE_INSTALL_DIR_NAME="install"
+	REF_PACKAGE_INSTALL_DIR_PATH="${REF_PACKAGE_LIST_DIR_PATH}/${REF_PACKAGE_INSTALL_DIR_NAME}"
+
+
+	REF_PACKAGE_REMOVE_DIR_NAME="remove"
+	REF_PACKAGE_REMOVE_DIR_PATH="${REF_PACKAGE_LIST_DIR_PATH}/${REF_PACKAGE_REMOVE_DIR_NAME}"
+
+
+	##
+	## ## Hook / Path
+	##
+
+	REF_HOOK_DIR_NAME="hook"
+	REF_HOOK_DIR_PATH="${REF_PLAN_FACTORY_DIR_PATH}/${REF_HOOK_DIR_NAME}"
+
+
+	##
+	## ## ISO Template / Path
+	##
+
+	REF_ISO_TEMPLATE_SOURCE_DIR_NAME="iso-template"
+	REF_ISO_TEMPLATE_SOURCE_DIR_PATH="${REF_PLAN_FACTORY_DIR_PATH}/${REF_ISO_TEMPLATE_SOURCE_DIR_NAME}"
+
+
+	REF_ISO_TEMPLATE_TARGET_DIR_NAME="${REF_ISO_TEMPLATE_SOURCE_DIR_NAME}"
+	REF_ISO_TEMPLATE_TARGET_DIR_PATH="${REF_PLAN_WORK_DIR_PATH}/${REF_ISO_TEMPLATE_TARGET_DIR_NAME}"
+
+
+	##
+	## ## Live Deb / Path
+	##
+
+	REF_LIVE_DEB_MIDDLE_DIR_NAME="live-deb"
+	REF_LIVE_DEB_MIDDLE_DIR_PATH="${REF_PLAN_WORK_DIR_PATH}/${REF_LIVE_DEB_MIDDLE_DIR_NAME}"
+
+
+	REF_LIVE_DEB_SOURCE_DIR_NAME="archives"
+	REF_LIVE_DEB_SOURCE_DIR_PATH="${REF_TARGET_OS_ROOT_DIR_PATH}/var/cache/apt/${REF_LIVE_DEB_SOURCE_DIR_NAME}"
+
+
+	return 0
+}
+
+master_var_dump () {
+
+	is_not_debug && return 0
+
+
+	util_debug_echo
+
+	util_debug_echo
+	util_debug_echo "##"
+	util_debug_echo "## ## Dump / master_var_dump"
+	util_debug_echo "##"
+
+
+
+
+	##
+	## ## Master / Args
+	##
+
+	util_debug_echo
+	util_debug_echo "DEFAULT_BUILD_ARCH=${DEFAULT_BUILD_ARCH}"
+	util_debug_echo "REF_BUILD_ARCH=${REF_BUILD_ARCH}"
+
+	util_debug_echo
+	util_debug_echo "DEFAULT_IS_USE_APTSS=${DEFAULT_IS_USE_APTSS}"
+	util_debug_echo "REF_IS_USE_APTSS=${REF_IS_USE_APTSS}"
+
+
+	##
+	## ## Master / Opts
+	##
+
+	util_debug_echo
+	util_debug_echo "DEFAULT_MAIN_RUN=${DEFAULT_MAIN_RUN}"
+	util_debug_echo "REF_MAIN_RUN=${REF_MAIN_RUN}"
+
+	util_debug_echo
+	util_debug_echo "DEFAULT_BUILD_LOCALE=${DEFAULT_BUILD_LOCALE}"
+	util_debug_echo "REF_BUILD_LOCALE=${REF_BUILD_LOCALE}"
+
+
+	##
+	## ## Target OS / Path
+	##
+
+	util_debug_echo
+	util_debug_echo "REF_TARGET_OS_ROOT_DIR_NAME=${REF_TARGET_OS_ROOT_DIR_NAME}"
+	util_debug_echo "REF_TARGET_OS_ROOT_DIR_PATH=${REF_TARGET_OS_ROOT_DIR_PATH}"
+
+	util_debug_echo
+	util_debug_echo "REF_TARGET_OS_ARCHIVE_FILE_NAME=${REF_TARGET_OS_ARCHIVE_FILE_NAME}"
+	util_debug_echo "REF_TARGET_OS_ARCHIVE_FILE_PATH=${REF_TARGET_OS_ARCHIVE_FILE_PATH}"
+
+
+	##
+	## ## Target OS / debootstrap args
+	##
+
+	util_debug_echo
+	util_debug_echo "DEFAULT_BUILD_SUITE=${DEFAULT_BUILD_SUITE}"
+	util_debug_echo "REF_BUILD_SUITE=${REF_BUILD_SUITE}"
+
+	util_debug_echo
+	util_debug_echo "DEFAULT_PACKAGE_REPO_URL=${DEFAULT_PACKAGE_REPO_URL}"
+	util_debug_echo "REF_PACKAGE_REPO_URL=${REF_PACKAGE_REPO_URL}"
+
+	util_debug_echo
+	util_debug_echo "DEFAULT_BUILD_INCLUDE=${DEFAULT_BUILD_INCLUDE}"
+	util_debug_echo "REF_BUILD_INCLUDE=${REF_BUILD_INCLUDE}"
+
+	util_debug_echo
+	util_debug_echo "DEFAULT_BUILD_KEYRING_FOR_LOONG64=${DEFAULT_BUILD_KEYRING_FOR_LOONG64}"
+	util_debug_echo "REF_BUILD_KEYRING_FOR_LOONG64=${REF_BUILD_KEYRING_FOR_LOONG64}"
+
+	util_debug_echo
+	util_debug_echo "DEFAULT_PACKAGE_REPO_URL_FOR_LOONG64=${DEFAULT_PACKAGE_REPO_URL_FOR_LOONG64}"
+	util_debug_echo "REF_PACKAGE_REPO_URL_FOR_LOONG64=${REF_PACKAGE_REPO_URL_FOR_LOONG64}"
+
+
+	##
+	## ## Overlay / Path
+	##
+
+	util_debug_echo
+	util_debug_echo "REF_OVERLAY_DIR_NAME=${REF_OVERLAY_DIR_NAME}"
+	util_debug_echo "REF_OVERLAY_DIR_PATH=${REF_OVERLAY_DIR_PATH}"
+
+	util_debug_echo
+	util_debug_echo "REF_FACTORY_OVERLAY_DIR_NAME=${REF_FACTORY_OVERLAY_DIR_NAME}"
+	util_debug_echo "REF_FACTORY_OVERLAY_DIR_PATH=${REF_FACTORY_OVERLAY_DIR_PATH}"
+
+
+	##
+	## ## Package List / Path
+	##
+
+	util_debug_echo
+	util_debug_echo "REF_PACKAGE_LIST_DIR_NAME=${REF_PACKAGE_LIST_DIR_NAME}"
+	util_debug_echo "REF_PACKAGE_LIST_DIR_PATH=${REF_PACKAGE_LIST_DIR_PATH}"
+
+	util_debug_echo
+	util_debug_echo "REF_PACKAGE_INSTALL_DIR_NAME=${REF_PACKAGE_INSTALL_DIR_NAME}"
+	util_debug_echo "REF_PACKAGE_INSTALL_DIR_PATH=${REF_PACKAGE_INSTALL_DIR_PATH}"
+
+	util_debug_echo
+	util_debug_echo "REF_PACKAGE_REMOVE_DIR_NAME=${REF_PACKAGE_REMOVE_DIR_NAME}"
+	util_debug_echo "REF_PACKAGE_REMOVE_DIR_PATH=${REF_PACKAGE_REMOVE_DIR_PATH}"
+
+
+	##
+	## ## Hook / Path
+	##
+
+	util_debug_echo
+	util_debug_echo "REF_HOOK_DIR_NAME=${REF_HOOK_DIR_NAME}"
+	util_debug_echo "REF_HOOK_DIR_PATH=${REF_HOOK_DIR_PATH}"
+
+
+	##
+	## ## ISO Template / Path
+	##
+
+	util_debug_echo
+	util_debug_echo "REF_ISO_TEMPLATE_SOURCE_DIR_NAME=${REF_ISO_TEMPLATE_SOURCE_DIR_NAME}"
+	util_debug_echo "REF_ISO_TEMPLATE_SOURCE_DIR_PATH=${REF_ISO_TEMPLATE_SOURCE_DIR_PATH}"
+
+	util_debug_echo
+	util_debug_echo "REF_ISO_TEMPLATE_TARGET_DIR_NAME=${REF_ISO_TEMPLATE_TARGET_DIR_NAME}"
+	util_debug_echo "REF_ISO_TEMPLATE_TARGET_DIR_PATH=${REF_ISO_TEMPLATE_TARGET_DIR_PATH}"
+
+
+	##
+	## ## Live Deb / Path
+	##
+
+	util_debug_echo
+	util_debug_echo "REF_LIVE_DEB_MIDDLE_DIR_NAME=${REF_LIVE_DEB_MIDDLE_DIR_NAME}"
+	util_debug_echo "REF_LIVE_DEB_MIDDLE_DIR_PATH=${REF_LIVE_DEB_MIDDLE_DIR_PATH}"
+
+	util_debug_echo
+	util_debug_echo "REF_LIVE_DEB_SOURCE_DIR_NAME=${REF_LIVE_DEB_SOURCE_DIR_NAME}"
+	util_debug_echo "REF_LIVE_DEB_SOURCE_DIR_PATH=${REF_LIVE_DEB_SOURCE_DIR_PATH}"
+
+
+
+	util_debug_echo
+	util_debug_echo
+	util_debug_echo "##"
+	util_debug_echo "## ## Tips"
+	util_debug_echo "##"
+	util_debug_echo
+	util_debug_echo "> Hide Dump Info"
+	util_debug_echo
+	util_debug_echo "\$ export IS_DEBUG=false"
+	util_debug_echo
+
+
+
+
+	return 0
+}
+
+master_var_init
+
+master_var_dump
+
+
 
 
 ##
