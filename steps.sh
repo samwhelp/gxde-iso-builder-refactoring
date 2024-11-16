@@ -2247,6 +2247,54 @@ main_signal_bind () {
 
 
 ##
+## ## Main / Help
+##
+
+
+msg_help_build_arch_required () {
+
+	util_error_echo
+	util_error_echo "##"
+	util_error_echo "## ## Build Arch Required"
+	util_error_echo "##"
+
+	util_error_echo
+	msg_usage_body
+	util_error_echo
+
+}
+
+msg_help_build_arch_not_supported () {
+
+	util_error_echo
+	util_error_echo "##"
+	util_error_echo "## ## Build Arch Not Supported"
+	util_error_echo "##"
+
+	util_error_echo
+	msg_usage_body
+	util_error_echo
+
+}
+
+msg_usage_body () {
+
+
+	util_error_echo "> Build Arch Options: ${REF_BUILD_ARCH_OPTION_LIST}"
+	util_error_echo
+	util_error_echo "SYNOPSIS : sudo ./${REF_CMD_FILE_NAME} [build_arch] [aptss]"
+	util_error_echo
+	util_error_echo "Example  : sudo ./${REF_CMD_FILE_NAME} amd64"
+	util_error_echo
+	util_error_echo "Example  : sudo ./${REF_CMD_FILE_NAME} amd64 aptss"
+	util_error_echo
+	util_error_echo "Example  : sudo ./${REF_CMD_FILE_NAME} unstable aptss"
+
+
+	return 0
+}
+
+##
 ## ## Main / Args
 ##
 
@@ -2256,26 +2304,10 @@ _main_check_args_size_ () {
 
 	if [[ ${1} -le 0 ]]; then
 
-		util_error_echo
-		util_error_echo "##"
-		util_error_echo "## ## Build Arch Required"
-		util_error_echo "##"
-		util_error_echo
-
-		util_error_echo "> Build Arch Options: ${REF_BUILD_ARCH_OPTION_LIST}"
-		util_error_echo
-		util_error_echo "SYNOPSIS : sudo ./${REF_CMD_FILE_NAME} [build_arch] [aptss]"
-		util_error_echo
-		util_error_echo "Example  : sudo ./${REF_CMD_FILE_NAME} amd64"
-		util_error_echo
-		util_error_echo "Example  : sudo ./${REF_CMD_FILE_NAME} amd64 aptss"
-		util_error_echo
-		util_error_echo "Example  : sudo ./${REF_CMD_FILE_NAME} unstable aptss"
-
-
-		util_error_echo
+		msg_help_build_arch_required
 
 		exit 1
+
 	fi
 
 }
@@ -2309,9 +2341,33 @@ master_arg_build_arch () {
 
 	REF_BUILD_ARCH="${1}"
 
+
 	if [[ -z "${REF_BUILD_ARCH}" ]]; then
 		REF_BUILD_ARCH="${DEFAULT_BUILD_ARCH}"
 	fi
+
+
+	local allow_build_arch=""
+
+	for allow_build_arch in ${REF_BUILD_ARCH_OPTION_LIST}; do
+
+		if [[ "${allow_build_arch}" == "${REF_BUILD_ARCH}" ]]; then
+
+			util_debug_echo "allow_build_arch=${allow_build_arch}"
+			break;
+
+		else
+			util_debug_echo "Var: REF_BUILD_ARCH=${REF_BUILD_ARCH}"
+
+			msg_help_build_arch_not_supported
+
+			util_debug_echo "Arg: 1=${1}"
+			util_debug_echo "Var: REF_BUILD_ARCH=${REF_BUILD_ARCH}"
+			exit;
+
+		fi
+
+	done
 
 	util_debug_echo "Var: REF_BUILD_ARCH=${REF_BUILD_ARCH}"
 
@@ -2323,9 +2379,11 @@ master_arg_is_use_aptss () {
 	util_debug_echo
 	util_debug_echo "Arg: 2=${2}"
 
+
 	if [[ "${1}" == "aptss" ]] || [[ "${2}" == "aptss" ]]|| [[ "${3}" == "aptss" ]]; then
 		REF_IS_USE_APTSS="true"
 	fi
+
 
 	if [[ -z "${REF_IS_USE_APTSS}" ]]; then
 		REF_IS_USE_APTSS="${DEFAULT_IS_USE_APTSS}"
