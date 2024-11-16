@@ -331,6 +331,7 @@ master_var_dump () {
 	util_debug_echo
 	util_debug_echo "DEFAULT_BUILD_LOCALE=${DEFAULT_BUILD_LOCALE}"
 	util_debug_echo "REF_BUILD_LOCALE=${REF_BUILD_LOCALE}"
+	util_debug_echo "REF_BUILD_LOCALE_OPTION_LIST=${REF_BUILD_LOCALE_OPTION_LIST}"
 
 
 	##
