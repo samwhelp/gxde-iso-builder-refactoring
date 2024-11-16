@@ -2325,8 +2325,8 @@ master_arg_build_arch () {
 
 			msg_help_build_arch_not_supported
 
-			util_debug_echo "Arg: 1=${1}"
-			util_debug_echo "Var: REF_BUILD_ARCH=${REF_BUILD_ARCH}"
+			util_error_echo "Arg: 1=${1}"
+			util_error_echo "Var: REF_BUILD_ARCH=${REF_BUILD_ARCH}"
 			exit;
 
 		fi
