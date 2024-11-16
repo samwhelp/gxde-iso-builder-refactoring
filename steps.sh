@@ -2258,7 +2258,7 @@ msg_help_build_arch_required () {
 	util_error_echo "##"
 
 	util_error_echo
-	msg_usage_body
+	msg_usage_body_main
 	util_error_echo
 
 }
@@ -2271,12 +2271,25 @@ msg_help_build_arch_not_supported () {
 	util_error_echo "##"
 
 	util_error_echo
-	msg_usage_body
+	msg_usage_body_main
 	util_error_echo
 
 }
 
-msg_usage_body () {
+msg_help_build_locale_not_supported () {
+
+	util_error_echo
+	util_error_echo "##"
+	util_error_echo "## ## Build Locale Not Supported"
+	util_error_echo "##"
+
+	util_error_echo
+	msg_usage_body_locale
+	util_error_echo
+
+}
+
+msg_usage_body_main () {
 
 
 	util_error_echo "> Build Arch Options: ${REF_BUILD_ARCH_OPTION_LIST}"
@@ -2293,6 +2306,20 @@ msg_usage_body () {
 	return 0
 }
 
+msg_usage_body_locale () {
+
+
+	util_error_echo "> Build Locale Options: ${REF_BUILD_LOCALE_OPTION_LIST}"
+	util_error_echo
+	util_error_echo "SYNOPSIS : sudo REF_BUILD_LOCALE=zh_tw ./${REF_CMD_FILE_NAME} [build_arch] [aptss]"
+	util_error_echo
+	util_error_echo "Example  : sudo REF_BUILD_LOCALE=zh_tw ./${REF_CMD_FILE_NAME} amd64"
+	util_error_echo
+	util_error_echo "Example  : sudo REF_BUILD_LOCALE=ez_cn ./${REF_CMD_FILE_NAME} amd64"
+
+
+	return 0
+}
 
 ##
 ## ## Master / Args
@@ -2333,6 +2360,7 @@ master_arg_build_arch () {
 
 	done
 
+
 	util_debug_echo "Var: REF_BUILD_ARCH=${REF_BUILD_ARCH}"
 
 	return 0
@@ -2355,6 +2383,43 @@ master_arg_is_use_aptss () {
 
 
 	util_debug_echo "Var: REF_IS_USE_APTSS=${REF_IS_USE_APTSS}"
+
+	return 0
+}
+
+master_arg_build_locale () {
+
+	util_debug_echo
+
+
+	if [[ -z "${REF_BUILD_LOCALE}" ]]; then
+		REF_BUILD_LOCALE="${DEFAULT_BUILD_LOCALE}"
+	fi
+
+
+	local allow_build_locale=""
+
+	for allow_build_locale in ${REF_BUILD_LOCALE_OPTION_LIST}; do
+
+		if [[ "${allow_build_locale}" == "${REF_BUILD_LOCALE}" ]]; then
+
+			util_debug_echo "allow_build_locale=${allow_build_locale}"
+			break;
+
+		else
+			util_debug_echo "Var: REF_BUILD_LOCALE=${REF_BUILD_LOCALE}"
+
+			msg_help_build_locale_not_supported
+
+			util_error_echo "Var: REF_BUILD_LOCALE=${REF_BUILD_LOCALE}"
+			exit;
+
+		fi
+
+	done
+
+
+	util_debug_echo "Var: REF_BUILD_LOCALE=${REF_BUILD_LOCALE}"
 
 	return 0
 }
@@ -2393,6 +2458,8 @@ _main_init_args_ () {
 	master_arg_build_arch "${@}"
 
 	master_arg_is_use_aptss "${@}"
+
+	master_arg_build_locale "${@}"
 
 
 	util_debug_echo
