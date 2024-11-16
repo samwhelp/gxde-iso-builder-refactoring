@@ -22,9 +22,9 @@ build:
 .PHONY: build
 
 
-build-zh_tw:
+zh_tw:
 	sudo REF_BUILD_LOCALE=zh_tw ./steps.sh amd64
-.PHONY: build-zh_tw
+.PHONY: zh_tw
 
 
 
