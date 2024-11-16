@@ -332,8 +332,17 @@ gxde_build_iso_package_required () {
 
 gxde_build_iso_develop_test () {
 
-	gxde_build_iso_develop_test_package_management
+	gxde_build_iso_develop_test_overlay
 
+	#gxde_build_iso_develop_test_package_management
+
+}
+
+gxde_build_iso_develop_test_overlay () {
+
+	gxde_build_os_overlay_by_locale
+
+	return 0
 }
 
 gxde_build_iso_develop_test_package_management () {
@@ -362,6 +371,7 @@ gxde_build_iso_develop_test_package_management () {
 
 	gxde_build_os_package_management
 	#gxde_build_os_overlay
+	#gxde_build_os_overlay_by_locale
 	#gxde_build_os_locale
 	#gxde_build_os_hook
 
@@ -407,6 +417,7 @@ gxde_build_iso_steps () {
 
 	gxde_build_os_package_management
 	gxde_build_os_overlay
+	gxde_build_os_overlay_by_locale
 	gxde_build_os_locale
 	gxde_build_os_hook
 
@@ -529,6 +540,26 @@ gxde_build_os_factory_overlay_by_arch () {
 	util_error_echo
 	util_error_echo "##"
 	util_error_echo "## ## GXDE / Build Target OS / Factory Overlay By Arch"
+	util_error_echo "##"
+	util_error_echo
+
+	util_error_echo
+	util_error_echo cp -rf "${overlay_dir_path}/." "${rootfs}"
+	cp -rf "${overlay_dir_path}/." "${rootfs}"
+
+	return 0
+}
+
+gxde_build_os_overlay_by_locale () {
+
+	local build_locale="${REF_BUILD_LOCALE}"
+
+	local overlay_dir_path="${REF_FACTORY_OVERLAY_DIR_PATH}-by-locale/${build_locale}"
+	local rootfs="${REF_TARGET_OS_ROOT_DIR_PATH}"
+
+	util_error_echo
+	util_error_echo "##"
+	util_error_echo "## ## GXDE / Build Target OS / Overlay By Locale"
 	util_error_echo "##"
 	util_error_echo
 

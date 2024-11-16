@@ -41,6 +41,14 @@ sudo REF_MAIN_RUN=test ./steps.sh amd64
 
 
 
+### build locale
+
+``` sh
+sudo REF_BUILD_LOCALE=zh_tw ./steps.sh amd64
+```
+
+
+
 
 ## Link
 
