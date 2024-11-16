@@ -22,6 +22,11 @@ build:
 .PHONY: build
 
 
+build-zh_tw:
+	sudo REF_BUILD_LOCALE=zh_tw ./steps.sh amd64
+.PHONY: build-zh_tw
+
+
 
 
 clean:
@@ -36,8 +41,7 @@ chroot-mount:
 .PHONY: chroot-mount
 
 
-
-
 chroot-unmount:
 	@./chroot-unmount.sh
 .PHONY: chroot-unmount
+
