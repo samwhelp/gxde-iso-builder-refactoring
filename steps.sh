@@ -619,6 +619,13 @@ gxde_build_iso_package_required () {
 
 gxde_build_iso_develop_test () {
 
+
+	util_error_echo
+	util_error_echo "##"
+	util_error_echo "## ## Run / gxde_build_iso_develop_test"
+	util_error_echo "##"
+	util_error_echo
+
 	gxde_build_iso_develop_test_overlay
 
 	#gxde_build_iso_develop_test_package_management
@@ -626,6 +633,12 @@ gxde_build_iso_develop_test () {
 }
 
 gxde_build_iso_develop_test_overlay () {
+
+	util_error_echo
+	util_error_echo "##"
+	util_error_echo "## ## Run / gxde_build_iso_develop_test_overlay"
+	util_error_echo "##"
+	util_error_echo
 
 	gxde_build_os_overlay_by_locale
 
@@ -636,7 +649,7 @@ gxde_build_iso_develop_test_package_management () {
 
 	util_error_echo
 	util_error_echo "##"
-	util_error_echo "## ## gxde_build_iso_develop_test"
+	util_error_echo "## ## Run / gxde_build_iso_develop_test_package_management"
 	util_error_echo "##"
 	util_error_echo
 
@@ -682,9 +695,12 @@ gxde_build_iso_steps () {
 
 	util_error_echo
 	util_error_echo "##"
-	util_error_echo "## ## gxde_build_iso_steps"
+	util_error_echo "## ## Run / gxde_build_iso_steps"
 	util_error_echo "##"
 	util_error_echo
+
+
+	msg_master_args
 
 
 	gxde_build_iso_package_required
@@ -2317,6 +2333,22 @@ msg_usage_body_locale () {
 	util_error_echo
 	util_error_echo "Example  : sudo REF_BUILD_LOCALE=ez_cn ./${REF_CMD_FILE_NAME} amd64"
 
+
+	return 0
+}
+
+
+##
+## ## Msg / Args
+##
+
+msg_master_args () {
+
+	util_error_echo
+	util_error_echo "Build: REF_BUILD_ARCH=${REF_BUILD_ARCH}"
+	util_error_echo "Build: REF_BUILD_LOCALE=${REF_BUILD_LOCALE}"
+	util_error_echo "Build: REF_IS_USE_APTSS=${REF_IS_USE_APTSS}"
+	util_error_echo
 
 	return 0
 }
