@@ -2247,9 +2247,8 @@ main_signal_bind () {
 
 
 ##
-## ## Main / Help
+## ## Msg / Help
 ##
-
 
 msg_help_build_arch_required () {
 
@@ -2294,45 +2293,10 @@ msg_usage_body () {
 	return 0
 }
 
+
 ##
-## ## Main / Args
+## ## Master / Args
 ##
-
-_main_check_args_size_ () {
-
-	local args_size="${1}"
-
-	if [[ ${1} -le 0 ]]; then
-
-		msg_help_build_arch_required
-
-		exit 1
-
-	fi
-
-}
-
-_main_init_args_ () {
-
-	##
-	## Example: `sudo ./steps.sh amd64 aptss`
-	##
-
-	util_debug_echo
-	util_debug_echo "##"
-	util_debug_echo "## ## Args / Init"
-	util_debug_echo "##"
-
-
-	master_arg_build_arch "${@}"
-
-	master_arg_is_use_aptss "${@}"
-
-
-	util_debug_echo
-
-	return 0
-}
 
 master_arg_build_arch () {
 
@@ -2395,6 +2359,46 @@ master_arg_is_use_aptss () {
 	return 0
 }
 
+
+##
+## ## Main / Args
+##
+
+_main_check_args_size_ () {
+
+	local args_size="${1}"
+
+	if [[ ${1} -le 0 ]]; then
+
+		msg_help_build_arch_required
+
+		exit 1
+
+	fi
+
+}
+
+_main_init_args_ () {
+
+	##
+	## Example: `sudo ./steps.sh amd64 aptss`
+	##
+
+	util_debug_echo
+	util_debug_echo "##"
+	util_debug_echo "## ## Args / Init"
+	util_debug_echo "##"
+
+
+	master_arg_build_arch "${@}"
+
+	master_arg_is_use_aptss "${@}"
+
+
+	util_debug_echo
+
+	return 0
+}
 
 
 ##
