@@ -2286,14 +2286,42 @@ _main_init_args_ () {
 	## Example: `sudo ./steps.sh amd64 aptss`
 	##
 
+	util_debug_echo
+	util_debug_echo "##"
+	util_debug_echo "## ## Args / Init"
+	util_debug_echo "##"
+
+
+	master_arg_build_arch "${@}"
+
+	master_arg_is_use_aptss "${@}"
+
+
+	util_debug_echo
+
+	return 0
+}
+
+master_arg_build_arch () {
+
+	util_debug_echo
+	util_debug_echo "Arg: 1=${1}"
+
 	REF_BUILD_ARCH="${1}"
 
 	if [[ -z "${REF_BUILD_ARCH}" ]]; then
 		REF_BUILD_ARCH="${DEFAULT_BUILD_ARCH}"
 	fi
 
-	#util_error_echo ${REF_BUILD_ARCH}
+	util_debug_echo "Var: REF_BUILD_ARCH=${REF_BUILD_ARCH}"
 
+	return 0
+}
+
+master_arg_is_use_aptss () {
+
+	util_debug_echo
+	util_debug_echo "Arg: 2=${2}"
 
 	if [[ "${1}" == "aptss" ]] || [[ "${2}" == "aptss" ]]|| [[ "${3}" == "aptss" ]]; then
 		REF_IS_USE_APTSS="true"
@@ -2303,12 +2331,11 @@ _main_init_args_ () {
 		REF_IS_USE_APTSS="${DEFAULT_IS_USE_APTSS}"
 	fi
 
-	#util_error_echo ${REF_IS_USE_APTSS}
 
+	util_debug_echo "Var: REF_IS_USE_APTSS=${REF_IS_USE_APTSS}"
 
 	return 0
 }
-
 
 
 
