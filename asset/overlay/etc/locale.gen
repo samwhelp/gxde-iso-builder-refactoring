@@ -495,7 +495,7 @@ ko_KR.UTF-8 UTF-8
 # zh_CN.GBK GBK
 zh_CN.UTF-8 UTF-8
 # zh_HK BIG5-HKSCS
-# zh_HK.UTF-8 UTF-8
+zh_HK.UTF-8 UTF-8
 # zh_SG GB2312
 # zh_SG.GBK GBK
 # zh_SG.UTF-8 UTF-8
