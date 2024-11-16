@@ -189,7 +189,7 @@ master_var_init () {
 
 	DEFAULT_BUILD_LOCALE="en_us"
 	REF_BUILD_LOCALE="${REF_BUILD_LOCALE:=$DEFAULT_BUILD_LOCALE}"
-	REF_BUILD_LOCALE_OPTION_LIST="en_us zh_tw zh_cn zh_hk"
+	REF_BUILD_LOCALE_OPTION_LIST="en_us zh_tw zh_cn zh_hk ja_jp ko_kr"
 
 
 	##
