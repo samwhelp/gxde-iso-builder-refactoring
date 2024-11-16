@@ -2338,6 +2338,7 @@ master_arg_build_arch () {
 	fi
 
 
+	local not_allowed="true"
 	local allow_build_arch=""
 
 	for allow_build_arch in ${REF_BUILD_ARCH_OPTION_LIST}; do
@@ -2345,20 +2346,23 @@ master_arg_build_arch () {
 		if [[ "${allow_build_arch}" == "${REF_BUILD_ARCH}" ]]; then
 
 			util_debug_echo "allow_build_arch=${allow_build_arch}"
+			not_allowed="false"
 			break;
-
-		else
-			util_debug_echo "Var: REF_BUILD_ARCH=${REF_BUILD_ARCH}"
-
-			msg_help_build_arch_not_supported
-
-			util_error_echo "Arg: 1=${1}"
-			util_error_echo "Var: REF_BUILD_ARCH=${REF_BUILD_ARCH}"
-			exit;
 
 		fi
 
 	done
+
+
+	if [[ "${not_allowed}" == "true" ]]; then
+		util_debug_echo "Var: REF_BUILD_ARCH=${REF_BUILD_ARCH}"
+
+		msg_help_build_arch_not_supported
+
+		util_error_echo "Arg: 1=${1}"
+		util_error_echo "Var: REF_BUILD_ARCH=${REF_BUILD_ARCH}"
+		exit;
+	fi
 
 
 	util_debug_echo "Var: REF_BUILD_ARCH=${REF_BUILD_ARCH}"
@@ -2397,6 +2401,7 @@ master_arg_build_locale () {
 	fi
 
 
+	local not_allowed="true"
 	local allow_build_locale=""
 
 	for allow_build_locale in ${REF_BUILD_LOCALE_OPTION_LIST}; do
@@ -2404,19 +2409,24 @@ master_arg_build_locale () {
 		if [[ "${allow_build_locale}" == "${REF_BUILD_LOCALE}" ]]; then
 
 			util_debug_echo "allow_build_locale=${allow_build_locale}"
+			not_allowed="false"
 			break;
-
-		else
-			util_debug_echo "Var: REF_BUILD_LOCALE=${REF_BUILD_LOCALE}"
-
-			msg_help_build_locale_not_supported
-
-			util_error_echo "Var: REF_BUILD_LOCALE=${REF_BUILD_LOCALE}"
-			exit;
 
 		fi
 
 	done
+
+
+	if [[ "${not_allowed}" == "true" ]]; then
+
+		util_debug_echo "Var: REF_BUILD_LOCALE=${REF_BUILD_LOCALE}"
+
+		msg_help_build_locale_not_supported
+
+		util_error_echo "Var: REF_BUILD_LOCALE=${REF_BUILD_LOCALE}"
+		exit;
+
+	fi
 
 
 	util_debug_echo "Var: REF_BUILD_LOCALE=${REF_BUILD_LOCALE}"
