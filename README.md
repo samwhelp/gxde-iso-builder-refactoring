@@ -22,30 +22,78 @@
 ## Usage
 
 * [build](#build)
+* [build locale](#build-locale)
 * [test](#test)
+
+
+> [Makefile](Makefile)
 
 
 
 
 ### build
 
+> build: loacle=en_us, arch=amd64
+
 ``` sh
 make build
 ```
 
 
-### test
-
-``` sh
-sudo REF_MAIN_RUN=test ./steps.sh amd64
-```
-
 
 
 ### build locale
 
+> [make en_us](Makefile#L27-L29)
+
+``` sh
+sudo REF_BUILD_LOCALE=en_us ./steps.sh amd64
+```
+
+
+> [make zh_tw](Makefile#L32-L34)
+
 ``` sh
 sudo REF_BUILD_LOCALE=zh_tw ./steps.sh amd64
+```
+
+
+> [make zh_cn](Makefile#L37-L39)
+
+``` sh
+sudo REF_BUILD_LOCALE=zh_cn ./steps.sh amd64
+```
+
+
+> [make zh_hk](Makefile#L42-L44)
+
+``` sh
+sudo REF_BUILD_LOCALE=zh_hk ./steps.sh amd64
+```
+
+
+> [make ja_jp](Makefile#L47-L49)
+
+``` sh
+sudo REF_BUILD_LOCALE=ja_jp ./steps.sh amd64
+```
+
+
+> [make ko_kr](Makefile#L52-L54)
+
+``` sh
+sudo REF_BUILD_LOCALE=ko_kr ./steps.sh amd64
+```
+
+
+
+
+### test
+
+> for developer testing
+
+``` sh
+sudo REF_MAIN_RUN=test ./steps.sh amd64
 ```
 
 
