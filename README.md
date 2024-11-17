@@ -46,7 +46,7 @@ cd gxde-iso-builder-refactoring
 * [test](#test)
 
 
-> [Makefile](Makefile)
+> [Makefile](https://github.com/samwhelp/gxde-iso-builder-refactoring/blob/main/Makefile)
 
 
 
@@ -66,42 +66,42 @@ make build
 
 ### build locale
 
-> [make en_us](Makefile#L27-L29)
+> [make en_us](https://github.com/samwhelp/gxde-iso-builder-refactoring/blob/main/Makefile#L27-L29)
 
 ``` sh
 sudo REF_BUILD_LOCALE=en_us ./steps.sh amd64
 ```
 
 
-> [make zh_tw](Makefile#L32-L34)
+> [make zh_tw](https://github.com/samwhelp/gxde-iso-builder-refactoring/blob/main/Makefile#L32-L34)
 
 ``` sh
 sudo REF_BUILD_LOCALE=zh_tw ./steps.sh amd64
 ```
 
 
-> [make zh_cn](Makefile#L37-L39)
+> [make zh_cn](https://github.com/samwhelp/gxde-iso-builder-refactoring/blob/main/Makefile#L37-L39)
 
 ``` sh
 sudo REF_BUILD_LOCALE=zh_cn ./steps.sh amd64
 ```
 
 
-> [make zh_hk](Makefile#L42-L44)
+> [make zh_hk](https://github.com/samwhelp/gxde-iso-builder-refactoring/blob/main/Makefile#L42-L44)
 
 ``` sh
 sudo REF_BUILD_LOCALE=zh_hk ./steps.sh amd64
 ```
 
 
-> [make ja_jp](Makefile#L47-L49)
+> [make ja_jp](https://github.com/samwhelp/gxde-iso-builder-refactoring/blob/main/Makefile#L47-L49)
 
 ``` sh
 sudo REF_BUILD_LOCALE=ja_jp ./steps.sh amd64
 ```
 
 
-> [make ko_kr](Makefile#L52-L54)
+> [make ko_kr](https://github.com/samwhelp/gxde-iso-builder-refactoring/blob/main/Makefile#L52-L54)
 
 ``` sh
 sudo REF_BUILD_LOCALE=ko_kr ./steps.sh amd64
