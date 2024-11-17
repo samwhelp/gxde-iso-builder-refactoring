@@ -14,9 +14,27 @@
 
 ## Subject
 
+* [Clone](#clone)
 * [Usage](#usage)
 * [Config File](#config-file)
 * [Link](#link)
+
+
+
+
+## Clone
+
+> clone
+
+``` sh
+git clone https://github.com/samwhelp/gxde-iso-builder-refactoring.git
+```
+
+> cd work dir
+
+``` sh
+cd gxde-iso-builder-refactoring
+```
 
 
 
@@ -40,6 +58,8 @@
 ``` sh
 make build
 ```
+
+> /opt/tmp/gxde/work/iso-template/gxde.iso
 
 
 
