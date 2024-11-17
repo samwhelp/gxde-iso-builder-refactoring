@@ -53,3 +53,6 @@ sudo REF_BUILD_LOCALE=zh_tw ./steps.sh amd64
 ## Link
 
 * [gxde-iso-builder](https://github.com/GXDE-OS/gxde-iso-builder)
+* [gxde-iso-builder-remix](https://github.com/samwhelp/gxde-iso-builder-remix)
+* [gxde-adjustment](https://github.com/samwhelp/gxde-adjustment) / gxde-config / [Deepin-Light](https://github.com/samwhelp/gxde-adjustment/tree/main/prototype/main/gxde-config/locale/en_us/Deepin-Light)
+* [debian-iso-builder-start](https://github.com/samwhelp/debian-iso-builder-start)
