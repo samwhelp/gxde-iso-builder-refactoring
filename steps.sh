@@ -626,6 +626,8 @@ gxde_build_iso_develop_test () {
 	util_error_echo "##"
 	util_error_echo
 
+	return 0
+
 	gxde_build_iso_develop_test_overlay
 
 	#gxde_build_iso_develop_test_package_management
