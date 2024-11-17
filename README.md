@@ -2,7 +2,7 @@
 
 # gxde-iso-builder-refactoring
 
-> Prototype: [gxde-iso-builde](https://github.com/GXDE-OS/gxde-iso-builder)
+> Prototype: [gxde-iso-builder](https://github.com/GXDE-OS/gxde-iso-builder)
 
 | Link | GitHub |
 | ---- | ------ |
