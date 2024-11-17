@@ -62,7 +62,7 @@ sudo REF_BUILD_LOCALE=zh_tw ./steps.sh amd64
 
 | Keybind |
 | --------------------- |
-| [~/.config/kglobalshortcutsrc](./asset/overlay/etc/skel/.config/kglobalshortcutsrc) |
+| [~/.config/kglobalshortcutsrc](./asset/overlay/etc/skel/.config/kglobalshortcutsrc#L45-L197) |
 | [~/.config/deepin/dde-daemon/keybinding/custom.ini](./asset/overlay/etc/skel/.config/deepin/dde-daemon/keybinding/custom.ini) |
 | [/usr/share/glib-2.0/schemas/95_gxde-adjustment-keybind.gschema.override](./asset/overlay/usr/share/glib-2.0/schemas/95_gxde-adjustment-keybind.gschema.override) |
 
