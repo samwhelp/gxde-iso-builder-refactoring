@@ -1194,9 +1194,9 @@ gxde_build_os_package_install_network () {
 gxde_build_os_package_install_input_method () {
 
 	util_error_echo
-	util_error_echo core_chroot_package_control install im-config fcitx5 fcitx5-chewing fcitx5-pinyin -y
+	util_error_echo core_chroot_package_control install im-config fcitx5 fcitx5-frontend-all fcitx5-chinese-addons fcitx5-chewing fcitx5-pinyin -y
 	util_error_echo
-	core_chroot_package_control install im-config fcitx5 fcitx5-chewing fcitx5-pinyin -y
+	core_chroot_package_control install im-config fcitx5 fcitx5-frontend-all fcitx5-chinese-addons fcitx5-chewing fcitx5-pinyin -y
 
 
 	return 0
@@ -1275,6 +1275,40 @@ gxde_build_os_package_install_app_store () {
 ##
 
 gxde_build_os_package_install_web_browser () {
+
+	#gxde_build_os_package_install_web_browser_chromium
+
+	#gxde_build_os_package_install_web_browser_firefox_esr
+
+	gxde_build_os_package_install_web_browser_firefox_spark
+
+	return 0
+}
+
+gxde_build_os_package_install_web_browser_firefox_esr () {
+
+
+	util_error_echo
+	util_error_echo core_chroot_package_control install firefox-esr firefox-esr-l10n-zh-tw firefox-esr-l10n-zh-cn -y
+	util_error_echo
+	core_chroot_package_control install firefox-esr firefox-esr-l10n-zh-tw firefox-esr-l10n-zh-cn -y
+
+
+	return 0
+}
+
+gxde_build_os_package_install_web_browser_chromium () {
+
+
+	util_error_echo
+	util_error_echo core_chroot_package_control install chromium chromium-l10n -y
+	util_error_echo
+	core_chroot_package_control install chromium chromium-l10n -y
+
+
+}
+
+gxde_build_os_package_install_web_browser_firefox_spark () {
 
 	local build_arch="${REF_BUILD_ARCH}"
 
